@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kaustubh Sreshtha — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0f1b2d;
+      --navy2:   #162032;
+      --accent:  #2563eb;
+      --accent2: #1d4ed8;
+      --text:    #1e293b;
+      --muted:   #64748b;
+      --border:  #e2e8f0;
+      --bg:      #f8fafc;
+      --white:   #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 5%;
+      height: 64px;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--navy);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    header {
+      background: linear-gradient(135deg, var(--navy) 0%, #1e3a5f 100%);
+      padding: 140px 5% 90px;
+      text-align: center;
+      color: var(--white);
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(37,99,235,0.25);
+      border: 1px solid rgba(37,99,235,0.5);
+      color: #93c5fd;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 999px;
+      margin-bottom: 1.4rem;
+    }
+    header h1 {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      margin-bottom: 1.1rem;
+    }
+    header h1 span { color: #60a5fa; }
+    header p {
+      font-size: 1.1rem;
+      color: #cbd5e1;
+      max-width: 560px;
+      margin: 0 auto 2.2rem;
+    }
+    .hero-cta {
+      display: inline-flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 6px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--white);
+    }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 1.5px solid rgba(255,255,255,0.4);
+    }
+    .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+
+    /* ── SECTIONS ── */
+    section { padding: 80px 5%; max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.5px;
+      margin-bottom: 0.6rem;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 520px;
+      margin-bottom: 3rem;
+    }
+    .divider {
+      width: 48px; height: 4px;
+      background: var(--accent);
+      border-radius: 2px;
+      margin-bottom: 0.8rem;
+    }
+
+    /* ── ABOUT ── */
+    #about { display: flex; flex-wrap: wrap; gap: 3rem; align-items: center; }
+    .about-text { flex: 1 1 340px; }
+    .about-text p { color: var(--muted); margin-bottom: 1rem; line-height: 1.8; }
+    .about-card {
+      flex: 0 1 260px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.8rem;
+    }
+    .about-card h4 { font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-bottom: 1.2rem; }
+    .info-row { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.85rem; font-size: 0.9rem; }
+    .info-row .icon { color: var(--accent); font-size: 1rem; width: 18px; text-align: center; }
+    .info-row strong { color: var(--navy); }
+    .info-row span { color: var(--muted); font-size: 0.85rem; }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 80px 5%; }
+    #skills > div { max-width: 1100px; margin: 0 auto; }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    .skill-category {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+    }
+    .skill-category h4 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      margin-bottom: 1.1rem;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tag {
+      background: var(--white);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1.6rem; }
+    .project-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.8rem;
+      transition: box-shadow 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.09); transform: translateY(-3px); }
+    .project-icon {
+      width: 44px; height: 44px;
+      background: #eff6ff;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 1.2rem;
+    }
+    .project-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
+    .project-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; flex: 1; margin-bottom: 1.2rem; }
+    .project-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+    .project-stack { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .stack-tag {
+      background: #eff6ff;
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+    .project-link { color: var(--accent); font-size: 0.82rem; font-weight: 600; text-decoration: none; }
+    .project-link:hover { text-decoration: underline; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      color: #94a3b8;
+      text-align: center;
+      padding: 2.5rem 5%;
+      font-size: 0.85rem;
+    }
+    footer strong { color: var(--white); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 0 4%; }
+      .nav-links { gap: 1.2rem; }
+      header { padding: 110px 6% 70px; }
+      section { padding: 60px 6%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Kaustubh Sreshtha</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header>
+  <div class="hero-badge">Open to Opportunities</div>
+  <h1>Hi, I'm <span>Kaustubh</span> 👋</h1>
+  <p>A motivated professional passionate about building great things and solving meaningful problems.</p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary">View My Work</a>
+    <a href="mailto:kaustubh.sreshtha@gmail.com" class="btn btn-outline">Get in Touch</a>
+  </div>
+</header>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-text">
+    <div class="section-label">About Me</div>
+    <div class="divider"></div>
+    <h2 class="section-title">Who I Am</h2>
+    <p>
+      I'm Kaustubh Sreshtha, a driven individual with a passion for creating impactful solutions.
+      I thrive at the intersection of creativity and logic, combining technical skills with
+      clear thinking to deliver work that matters.
+    </p>
+    <p>
+      Whether I'm tackling a new challenge or refining an existing project, I bring curiosity,
+      attention to detail, and a commitment to quality to everything I do.
+    </p>
+    <p>
+      Feel free to explore my work below, or reach out — I'd love to connect.
+    </p>
+  </div>
+  <div class="about-card">
+    <h4>Quick Info</h4>
+    <div class="info-row">
+      <span class="icon">📧</span>
+      <div><strong>Email</strong><br><span>kaustubh.sreshtha@gmail.com</span></div>
+    </div>
+    <div class="info-row">
+      <span class="icon">🌐</span>
+      <div><strong>GitHub</strong><br><span>github.com/your-username</span></div>
+    </div>
+    <div class="info-row">
+      <span class="icon">💼</span>
+      <div><strong>LinkedIn</strong><br><span>linkedin.com/in/your-profile</span></div>
+    </div>
+    <div class="info-row">
+      <span class="icon">📍</span>
+      <div><strong>Location</strong><br><span>Your City, Country</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" style="padding: 80px 5%; background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div style="max-width: 1100px; margin: 0 auto;">
+    <div class="section-label">What I Know</div>
+    <div class="divider"></div>
+    <h2 class="section-title">Skills &amp; Technologies</h2>
+    <p class="section-sub">A snapshot of the tools and technologies I work with.</p>
+    <div class="skills-grid">
+      <div class="skill-category">
+        <h4>Languages</h4>
+        <div class="skill-tags">
+          <span class="tag">Python</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">HTML / CSS</span>
+          <span class="tag">SQL</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h4>Frameworks &amp; Libraries</h4>
+        <div class="skill-tags">
+          <span class="tag">React</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">Flask</span>
+          <span class="tag">REST APIs</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h4>Tools &amp; Platforms</h4>
+        <div class="skill-tags">
+          <span class="tag">Git &amp; GitHub</span>
+          <span class="tag">VS Code</span>
+          <span class="tag">Linux</span>
+          <span class="tag">Figma</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h4>Soft Skills</h4>
+        <div class="skill-tags">
+          <span class="tag">Problem Solving</span>
+          <span class="tag">Communication</span>
+          <span class="tag">Team Collaboration</span>
+          <span class="tag">Research</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">My Work</div>
+  <div class="divider"></div>
+  <h2 class="section-title">Featured Projects</h2>
+  <p class="section-sub">A selection of projects I've built or contributed to.</p>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <div class="project-icon">🚀</div>
+      <h3>Project One</h3>
+      <p>A brief description of this project — what problem it solves, what makes it interesting, and what you learned from building it.</p>
+      <div class="project-footer">
+        <div class="project-stack">
+          <span class="stack-tag">Python</span>
+          <span class="stack-tag">Flask</span>
+        </div>
+        <a href="#" class="project-link">View →</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-icon">💡</div>
+      <h3>Project Two</h3>
+      <p>A brief description of this project — what problem it solves, what makes it interesting, and what you learned from building it.</p>
+      <div class="project-footer">
+        <div class="project-stack">
+          <span class="stack-tag">React</span>
+          <span class="stack-tag">Node.js</span>
+        </div>
+        <a href="#" class="project-link">View →</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-icon">📊</div>
+      <h3>Project Three</h3>
+      <p>A brief description of this project — what problem it solves, what makes it interesting, and what you learned from building it.</p>
+      <div class="project-footer">
+        <div class="project-stack">
+          <span class="stack-tag">SQL</span>
+          <span class="stack-tag">Data Analysis</span>
+        </div>
+        <a href="#" class="project-link">View →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 <strong>Kaustubh Sreshtha</strong> · Built with HTML &amp; CSS · Hosted on GitHub Pages</p>
+  <p style="margin-top: 0.5rem;">
+    <a href="mailto:kaustubh.sreshtha@gmail.com" style="color: #60a5fa; text-decoration: none;">kaustubh.sreshtha@gmail.com</a>
+  </p>
+</footer>
+
+</body>
+</html>
