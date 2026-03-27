@@ -668,11 +668,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const roleEl = document.getElementById('hero-role-text');
   if (roleEl) {
     typewriter(roleEl, [
-      'Bioimaging Researcher',
-      'OCT & Ultrasound Engineer',
+      'Bioimaging Researcher @ OU',
+      'OCT & Photoacoustic Imaging',
       'Ultrasound Localization Microscopy',
-      'Photoacoustic Imaging',
-      'Medical Image Processing'
+      'Organ Transplant Evaluation',
+      'Seeking PhD Positions 2026'
     ], { typeSpeed: 50, deleteSpeed: 25, pauseEnd: 2200 });
   }
 });
