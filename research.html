@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research — Kaustubh Pandit</title>
+  <meta name="description" content="Research projects in OCT, Ultrasound, ULM, and Photoacoustic Imaging by Kaustubh Pandit." />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>" />
+  <style>
+    /* ── Research page extras ── */
+    .modality-section {
+      padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 6vw, 5rem);
+      position: relative;
+    }
+    .modality-section:nth-child(even) {
+      background: rgba(255,255,255,0.01);
+    }
+
+    .modality-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .modality-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .icon-oct   { background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.25); }
+    .icon-us    { background: rgba(0,229,180,0.1); border: 1px solid rgba(0,229,180,0.25); }
+    .icon-ulm   { background: rgba(123,47,255,0.1); border: 1px solid rgba(123,47,255,0.25); }
+    .icon-pa    { background: rgba(255,63,164,0.1); border: 1px solid rgba(255,63,164,0.25); }
+    .icon-ml    { background: rgba(255,200,0,0.1); border: 1px solid rgba(255,200,0,0.25); }
+
+    .modality-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 3rem;
+      align-items: start;
+      max-width: 1100px;
+    }
+    @media (max-width: 768px) { .modality-layout { grid-template-columns: 1fr; } }
+    .modality-layout.reversed { direction: rtl; }
+    .modality-layout.reversed > * { direction: ltr; }
+
+    .modality-visual-box {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      position: relative;
+      background: var(--bg-secondary);
+    }
+    .modality-visual-box canvas {
+      display: block;
+      width: 100%;
+      height: 260px;
+    }
+    .modality-visual-box .scan-overlay {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 3px,
+        rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px
+      );
+      pointer-events: none;
+    }
+    .modality-caption {
+      padding: 0.75rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .modality-caption::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 6px var(--accent-cyan);
+      animation: pulse 2s infinite;
+    }
+
+    .modality-text h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .modality-text .mod-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+    .modality-text p {
+      color: var(--text-secondary);
+      line-height: 1.85;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+    .modality-text .specs {
+      margin-top: 1.25rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    .spec-item {
+      padding: 0.75rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .spec-key {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+    }
+    .spec-val {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    /* ── Related papers ── */
+    .related-papers {
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+    .related-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+    .related-paper-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      padding: 0.4rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: color var(--transition);
+    }
+    .related-paper-link:hover { color: var(--accent-cyan); }
+    .related-paper-link::before {
+      content: '→';
+      color: var(--accent-cyan);
+      font-size: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    /* ── TOC sidebar ── */
+    .research-toc {
+      position: sticky;
+      top: calc(var(--nav-height) + 2rem);
+      padding: 1.25rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+    }
+    .toc-title {
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.65rem;
+      margin-bottom: 0.75rem;
+    }
+    .toc-link {
+      display: block;
+      color: var(--text-muted);
+      padding: 0.35rem 0.5rem;
+      border-left: 2px solid transparent;
+      transition: var(--transition);
+      line-height: 1.3;
+    }
+    .toc-link:hover, .toc-link.active {
+      color: var(--accent-cyan);
+      border-left-color: var(--accent-cyan);
+      background: rgba(0,212,255,0.04);
+    }
+
+    .research-layout-outer {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 clamp(1.5rem, 6vw, 5rem);
+      padding-bottom: 4rem;
+    }
+    @media (max-width: 960px) {
+      .research-layout-outer {
+        grid-template-columns: 1fr;
+      }
+      .research-toc { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">KP<span>/</span>bioimaging</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="research.html" class="active">Research</a></li>
+    <li><a href="publications.html">Publications</a></li>
+    <li><a href="news.html">News</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="page-wrapper">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="section-label">Research</div>
+    <h1 class="section-title">Bioimaging Research</h1>
+    <div class="active-page-line"></div>
+    <p class="section-subtitle">
+      My research explores the physics, engineering, and computation behind
+      next-generation biomedical imaging systems — from optical coherence
+      tomography and photoacoustics to ultrasound super-resolution.
+    </p>
+  </div>
+
+  <div class="research-layout-outer">
+
+    <!-- TOC -->
+    <aside>
+      <nav class="research-toc reveal">
+        <div class="toc-title">On this page</div>
+        <a href="#oct" class="toc-link">OCT</a>
+        <a href="#ultrasound" class="toc-link">Ultrasound</a>
+        <a href="#ulm" class="toc-link">ULM</a>
+        <a href="#photoacoustics" class="toc-link">Photoacoustics</a>
+        <a href="#ml-imaging" class="toc-link">ML for Imaging</a>
+      </nav>
+    </aside>
+
+    <!-- Main content -->
+    <div>
+
+      <!-- ═══ OCT ═══ -->
+      <section class="modality-section" id="oct">
+        <div class="modality-header">
+          <div class="modality-icon icon-oct">🔭</div>
+          <div>
+            <span class="section-label" style="margin-bottom:0.2rem">Modality 01</span>
+            <div style="font-size:0.8rem;color:var(--text-muted);font-family:var(--font-mono)">Optical Coherence Tomography</div>
+          </div>
+        </div>
+
+        <div class="modality-layout">
+          <div class="modality-text reveal">
+            <span class="mod-tag tag-oct">OCT</span>
+            <h2>Optical Coherence Tomography</h2>
+            <p>
+              OCT uses low-coherence interferometry to acquire micrometer-resolution
+              cross-sectional images of biological tissue. My work investigates
+              <strong style="color:var(--text-primary)">spectral-domain and swept-source OCT</strong> systems,
+              focusing on signal processing pipelines for dispersion compensation,
+              motion artifact correction, and speckle reduction.
+            </p>
+            <p>
+              I am particularly interested in <strong style="color:var(--text-primary)">OCT angiography (OCTA)</strong>,
+              which extracts blood flow contrast without exogenous agents by analyzing
+              inter-frame decorrelation — enabling label-free vascular imaging at
+              capillary resolution.
+            </p>
+            <p>
+              [Add your specific project details, methods, results, and clinical targets here.]
+            </p>
+            <div class="specs">
+              <div class="spec-item">
+                <div class="spec-key">Axial Resolution</div>
+                <div class="spec-val">~5–10 μm</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key">A-scan Rate</div>
+                <div class="spec-val">~100 kHz</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key">Imaging Depth</div>
+                <div class="spec-val">1–3 mm</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key">Wavelength</div>
+                <div class="spec-val">840 / 1310 nm</div>
+              </div>
+            </div>
+            <div class="related-papers">
+              <div class="related-label">Related Publications</div>
+              <a href="publications.html" class="related-paper-link">[Add your OCT paper here]</a>
+            </div>
+          </div>
+
+          <div class="reveal reveal-delay-2">
+            <div class="modality-visual-box">
+              <canvas id="canvas-oct-full" height="260"></canvas>
+              <div class="scan-overlay"></div>
+              <div class="modality-caption">Live OCT B-scan simulation — tissue layer reflectivity model</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ═══ ULTRASOUND ═══ -->
+      <section class="modality-section" id="ultrasound">
+        <div class="modality-header">
+          <div class="modality-icon icon-us">〰️</div>
+          <div>
+            <span class="section-label" style="margin-bottom:0.2rem">Modality 02</span>
+            <div style="font-size:0.8rem;color:var(--text-muted);font-family:var(--font-mono)">Pulse-Echo Ultrasound</div>
+          </div>
+        </div>
+
+        <div class="modality-layout reversed">
+          <div class="modality-text reveal">
+            <span class="mod-tag tag-us">Ultrasound</span>
+            <h2>Pulse-Echo Ultrasound Imaging</h2>
+            <p>
+              Ultrasound imaging exploits the reflection of high-frequency acoustic
+              waves at tissue interfaces. I work on <strong style="color:var(--text-primary)">plane-wave and diverging-wave
+              compounding</strong> strategies that enable high frame-rate (>1000 fps) acquisition
+              while maintaining image quality through coherent spatial compounding.
+            </p>
+            <p>
+              My interest spans <strong style="color:var(--text-primary)">beamforming algorithms</strong> (DAS, MV, DMAS),
+              point spread function modeling, and advanced reconstruction techniques
+              including compressed sensing and model-based iterative methods.
+            </p>
+            <p>
+              [Describe your specific ultrasound projects, hardware used, and clinical/pre-clinical applications.]
+            </p>
+            <div class="specs">
+              <div class="spec-item">
+                <div class="spec-key">Frequency</div>
+                <div class="spec-val">1–30 MHz</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key">Frame Rate</div>
+                <div class="spec-val">up to 20 kfps</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key">Axial Resolution</div>
+                <div class="spec-val">~50–200 μm</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key">Imaging Depth</div>
+                <div class="spec-val">1–15 cm</div>
+              </div>
+            </div>
+            <div class="related-papers">
+              <div class="related-label">Related Publications</div>
+              <a href="publications.html" class="related-paper-link">[Add your ultrasound paper here]</a>
+            </div>
+          </div>
+
+          <div class="reveal reveal-delay-2">
+            <div class="modality-visual-box">
+              <canvas id="canvas-us-full" height="260"></canvas>
+              <div class="scan-overlay"></div>
+              <div class="modality-caption">Ultrasound B-mode fan simulation — speckle + tissue boundary echoes</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ═══ ULM ═══ -->
+      <section class="modality-section" id="ulm">
+        <div class="modality-header">
+          <div class="modality-icon icon-ulm">✦</div>
+          <div>
+            <span class="section-label" style="margin-bottom:0.2rem">Modality 03</span>
+            <div style="font-size:0.8rem;color:var(--text-muted);font-family:var(--font-mono)">Super-Resolution Vascular Imaging</div>
+          </div>
+        </div>
+
+        <div class="modality-layout">
+          <div class="modality-text reveal">
+            <span class="mod-tag tag-ulm">ULM</span>
+            <h2>Ultrasound Localization Microscopy</h2>
+            <p>
+              ULM overcomes the acoustic diffraction limit by <strong style="color:var(--text-primary)">precisely localizing
+              individual microbubble contrast agents</strong> across thousands of acquisitions
+              and accumulating their positions into a super-resolved vascular map —
+              analogous to STORM/PALM in fluorescence microscopy.
+            </p>
+            <p>
+              My work explores <strong style="color:var(--text-primary)">deep learning-based bubble detection and tracking</strong>,
+              sparse recovery formulations, and fast acquisition strategies to reduce
+              the prohibitively long acquisition times that limit current in-vivo ULM.
+            </p>
+            <p>
+              [Detail your ULM pipeline, datasets, network architectures, and application targets — brain, tumor vasculature, kidney, etc.]
+            </p>
+            <div class="specs">
+              <div class="spec-item">
+                <div class="spec-key">Resolution</div>
+                <div class="spec-val">10–50 μm</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key">Contrast Agent</div>
+                <div class="spec-val">Microbubbles</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key">Depth</div>
+                <div class="spec-val">cm-scale</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key">Key Challenge</div>
+                <div class="spec-val">Acquisition time</div>
+              </div>
+            </div>
+            <div class="related-papers">
+              <div class="related-label">Related Publications</div>
+              <a href="publications.html" class="related-paper-link">[Add your ULM paper here]</a>
+            </div>
+          </div>
+
+          <div class="reveal reveal-delay-2">
+            <div class="modality-visual-box">
+              <canvas id="canvas-ulm-full" height="260"></canvas>
+              <div class="scan-overlay" style="background:none"></div>
+              <div class="modality-caption">ULM microbubble tracking — live super-resolution track accumulation</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ═══ PHOTOACOUSTICS ═══ -->
+      <section class="modality-section" id="photoacoustics">
+        <div class="modality-header">
+          <div class="modality-icon icon-pa">⚡</div>
+          <div>
+            <span class="section-label" style="margin-bottom:0.2rem">Modality 04</span>
+            <div style="font-size:0.8rem;color:var(--text-muted);font-family:var(--font-mono)">Photoacoustic Imaging</div>
+          </div>
+        </div>
+
+        <div class="modality-layout reversed">
+          <div class="modality-text reveal">
+            <span class="mod-tag tag-pa">Photoacoustics</span>
+            <h2>Photoacoustic Imaging</h2>
+            <p>
+              Photoacoustic imaging leverages the conversion of absorbed optical energy
+              into broadband acoustic waves via the <strong style="color:var(--text-primary)">thermoelastic effect</strong>.
+              This hybrid modality provides the optical contrast of light with the
+              penetration depth of ultrasound, enabling label-free imaging of
+              hemoglobin and other endogenous absorbers at centimeter depths.
+            </p>
+            <p>
+              I work on <strong style="color:var(--text-primary)">spectroscopic photoacoustics</strong> for blood oxygenation
+              mapping (sO₂), model-based image reconstruction, and integrating PA with
+              co-registered ultrasound for multi-modal tissue characterization.
+            </p>
+            <p>
+              [Add your PA system details, wavelengths used, phantom/in-vivo results, and clinical motivation.]
+            </p>
+            <div class="specs">
+              <div class="spec-item">
+                <div class="spec-key">Wavelength Range</div>
+                <div class="spec-val">650–1100 nm</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key">Depth</div>
+                <div class="spec-val">up to ~5 cm</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key">Contrast</div>
+                <div class="spec-val">Hb, HbO₂, melanin</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key">Resolution</div>
+                <div class="spec-val">~100–500 μm</div>
+              </div>
+            </div>
+            <div class="related-papers">
+              <div class="related-label">Related Publications</div>
+              <a href="publications.html" class="related-paper-link">[Add your photoacoustics paper here]</a>
+            </div>
+          </div>
+
+          <div class="reveal reveal-delay-2">
+            <div class="modality-visual-box">
+              <canvas id="canvas-pa-full" height="260"></canvas>
+              <div class="scan-overlay" style="background:none"></div>
+              <div class="modality-caption">Photoacoustic wave propagation — laser pulse → thermoelastic emission</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ═══ ML FOR IMAGING ═══ -->
+      <section class="modality-section" id="ml-imaging">
+        <div class="modality-header">
+          <div class="modality-icon icon-ml">🧠</div>
+          <div>
+            <span class="section-label" style="margin-bottom:0.2rem">Cross-cutting Theme</span>
+            <div style="font-size:0.8rem;color:var(--text-muted);font-family:var(--font-mono)">Machine Learning for Imaging</div>
+          </div>
+        </div>
+
+        <div class="modality-text reveal" style="max-width:700px">
+          <span class="mod-tag tag-ml">ML / AI</span>
+          <h2>Deep Learning for Biomedical Imaging</h2>
+          <p>
+            Across all imaging modalities, I apply deep learning to solve challenging
+            inverse problems: <strong style="color:var(--text-primary)">image reconstruction, denoising, super-resolution,
+            segmentation, and quantification</strong>. Neural networks trained on
+            physics-informed simulations can dramatically reduce acquisition requirements
+            and improve image quality.
+          </p>
+          <p>
+            Key architectures I work with include U-Nets for segmentation, unrolled
+            iterative networks for reconstruction, and physics-informed neural networks
+            (PINNs) for wave propagation modeling.
+          </p>
+          <p>
+            [Add your specific ML projects, network architectures, training datasets, benchmark results.]
+          </p>
+        </div>
+      </section>
+
+    </div><!-- main -->
+  </div><!-- outer layout -->
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <footer class="footer">
+    <div class="footer-copy">© 2025 Kaustubh Pandit</div>
+    <div class="footer-links">
+      <a href="https://github.com/" target="_blank">GitHub</a>
+      <a href="https://scholar.google.com/" target="_blank">Scholar</a>
+      <a href="https://linkedin.com/" target="_blank">LinkedIn</a>
+      <a href="mailto:kaustubh.sreshtha@gmail.com">Email</a>
+    </div>
+  </footer>
+
+</div>
+
+<button class="back-to-top" aria-label="Back to top">
+  <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<script src="assets/js/main.js"></script>
+<script>
+  // Re-init project canvases with new IDs for research page
+  document.addEventListener('DOMContentLoaded', () => {
+    function runCanvas(id, drawFn) {
+      const c = document.getElementById(id);
+      if (!c) return;
+      const ctx = c.getContext('2d');
+      c.width = c.offsetWidth;
+      c.height = parseInt(c.getAttribute('height')) || 260;
+      drawFn(ctx, c.width, c.height);
+    }
+
+    // OCT full
+    runCanvas('canvas-oct-full', (ctx, W, H) => {
+      let t = 0;
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        const bg = ctx.createLinearGradient(0, 0, 0, H);
+        bg.addColorStop(0, '#000a1a'); bg.addColorStop(1, '#001a33');
+        ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+        const cols = 120;
+        for (let col = 0; col < cols; col++) {
+          const x = (col / cols) * W;
+          for (let row = 0; row < H; row += 2) {
+            const depth = row / H;
+            const s1 = Math.exp(-Math.pow((depth - 0.18), 2) / 0.002) * 0.9;
+            const s2 = 0.7 * Math.exp(-Math.pow((depth - 0.38 + 0.035 * Math.sin(col * 0.25 + t * 0.008)), 2) / 0.004);
+            const s3 = 0.5 * Math.exp(-Math.pow((depth - 0.6), 2) / 0.003);
+            const s4 = 0.3 * Math.exp(-Math.pow((depth - 0.78), 2) / 0.003);
+            const speckle = 0.12 * Math.random();
+            const surface = 0.8 * Math.exp(-depth * 35);
+            const intensity = Math.max(0, s1 + s2 + s3 + s4 + speckle + surface - depth * 0.25);
+            if (intensity > 0.04) {
+              ctx.fillStyle = `hsla(190, 100%, ${30 + intensity * 45}%, ${Math.min(1, intensity)})`;
+              ctx.fillRect(x, row, W / cols + 0.5, 2);
+            }
+          }
+        }
+        const scanX = ((t * 0.4) % W);
+        const sg = ctx.createLinearGradient(scanX - 12, 0, scanX + 12, 0);
+        sg.addColorStop(0, 'transparent');
+        sg.addColorStop(0.5, 'rgba(0,212,255,0.5)');
+        sg.addColorStop(1, 'transparent');
+        ctx.fillStyle = sg; ctx.fillRect(scanX - 12, 0, 24, H);
+        t++; requestAnimationFrame(draw);
+      }
+      draw();
+    });
+
+    // US full — reuse same approach
+    runCanvas('canvas-us-full', (ctx, W, H) => {
+      let t = 0;
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        const bg = ctx.createRadialGradient(W/2, 0, 10, W/2, H/2, H);
+        bg.addColorStop(0, '#001020'); bg.addColorStop(1, '#000510');
+        ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+        const cx = W/2, cy = -20;
+        const numLines = 60;
+        for (let i = 0; i < numLines; i++) {
+          const angle = -Math.PI*0.35 + (i/numLines)*Math.PI*0.7;
+          const len = H * 1.1;
+          const ex = cx + Math.sin(angle)*len, ey = cy + Math.cos(angle)*len;
+          ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(ex, ey);
+          ctx.strokeStyle = 'rgba(0,212,255,0.03)'; ctx.lineWidth = W/numLines*0.7; ctx.stroke();
+          for (let d = 0.08; d < 1; d += 0.012) {
+            const px = cx + Math.sin(angle)*len*d, py = cy + Math.cos(angle)*len*d;
+            let echo = 0;
+            if (Math.abs(d - 0.28) < 0.012) echo = 0.75 + 0.2*Math.sin(i*0.35 + t*0.02);
+            if (Math.abs(d - 0.52) < 0.01) echo = 0.55;
+            if (Math.abs(d - 0.72) < 0.012) echo = 0.65;
+            if (Math.abs(d - 0.88) < 0.008) echo = 0.4;
+            echo += 0.07*Math.random();
+            if (echo > 0.08 && px > 0 && px < W && py > 0 && py < H) {
+              ctx.beginPath(); ctx.arc(px, py, 1.5, 0, Math.PI*2);
+              ctx.fillStyle = `rgba(0, ${100 + echo*155}, ${200 + echo*55}, ${echo*0.85})`; ctx.fill();
+            }
+          }
+        }
+        ctx.beginPath(); ctx.arc(cx, cy, 30, Math.PI*0.15, Math.PI*0.85);
+        ctx.strokeStyle = 'rgba(0,212,255,0.3)'; ctx.lineWidth = 2; ctx.stroke();
+        t++; requestAnimationFrame(draw);
+      }
+      draw();
+    });
+
+    // ULM full
+    runCanvas('canvas-ulm-full', (ctx, W, H) => {
+      const vessels = [
+        {pts:[[0.15,0.05],[0.2,0.25],[0.18,0.5],[0.22,0.75],[0.18,0.98]],r:3.5,color:'#00d4ff'},
+        {pts:[[0.5,0.02],[0.48,0.2],[0.52,0.42],[0.5,0.62],[0.48,0.82],[0.5,1.0]],r:4.5,color:'#7b2fff'},
+        {pts:[[0.78,0.05],[0.75,0.28],[0.8,0.5],[0.76,0.75],[0.78,0.98]],r:3,color:'#00e5b4'},
+        {pts:[[0.18,0.5],[0.35,0.46],[0.5,0.42]],r:2,color:'#00d4ff'},
+        {pts:[[0.5,0.62],[0.63,0.6],[0.76,0.65]],r:2,color:'#00e5b4'},
+        {pts:[[0.2,0.25],[0.34,0.22],[0.48,0.2]],r:1.8,color:'#7b2fff'},
+        {pts:[[0.52,0.42],[0.65,0.44],[0.78,0.5]],r:1.5,color:'#00d4ff'},
+      ];
+      const bubbles = [];
+      vessels.forEach((v,vi) => {
+        for (let i = 0; i < 10; i++) bubbles.push({vessel:vi, t:Math.random(), speed:0.003+Math.random()*0.004});
+      });
+      const tc = document.createElement('canvas'); tc.width = W; tc.height = H;
+      const tCtx = tc.getContext('2d');
+      function lerp(pts, t) {
+        const seg = t*(pts.length-1), i = Math.min(Math.floor(seg),pts.length-2), f = seg-i;
+        return [(pts[i][0]+(pts[i+1][0]-pts[i][0])*f)*W, (pts[i][1]+(pts[i+1][1]-pts[i][1])*f)*H];
+      }
+      function draw() {
+        ctx.clearRect(0,0,W,H);
+        const bg = ctx.createLinearGradient(0,0,W,H);
+        bg.addColorStop(0,'#050010'); bg.addColorStop(1,'#0a001a');
+        ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+        tCtx.fillStyle='rgba(0,0,0,0.006)'; tCtx.fillRect(0,0,W,H);
+        bubbles.forEach(b => {
+          b.t += b.speed; if (b.t > 1) b.t -= 1;
+          const v = vessels[b.vessel], [x,y] = lerp(v.pts, b.t);
+          tCtx.beginPath(); tCtx.arc(x,y,1.2,0,Math.PI*2);
+          tCtx.fillStyle = v.color+'99'; tCtx.fill();
+          const g = ctx.createRadialGradient(x,y,0,x,y,7);
+          g.addColorStop(0, v.color+'bb'); g.addColorStop(1,'transparent');
+          ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,7,0,Math.PI*2); ctx.fill();
+          ctx.beginPath(); ctx.arc(x,y,1.8,0,Math.PI*2); ctx.fillStyle='#fff'; ctx.fill();
+        });
+        ctx.drawImage(tc,0,0);
+        requestAnimationFrame(draw);
+      }
+      draw();
+    });
+
+    // PA full
+    runCanvas('canvas-pa-full', (ctx, W, H) => {
+      let t = 0, pulses = [];
+      function addPulse() {
+        pulses.push({x:W*0.2+Math.random()*W*0.6, y:H*0.15+Math.random()*H*0.55, r:0, maxR:H*0.7, alpha:0.85});
+      }
+      addPulse(); addPulse();
+      function draw() {
+        ctx.clearRect(0,0,W,H);
+        const bg = ctx.createLinearGradient(0,0,0,H);
+        bg.addColorStop(0,'#150a00'); bg.addColorStop(1,'#1a0500');
+        ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+        // Multiple laser beams
+        [0.3,0.5,0.7].forEach(lxf => {
+          const lx = W*lxf;
+          const lg = ctx.createLinearGradient(lx-4,0,lx+4,0);
+          lg.addColorStop(0,'transparent'); lg.addColorStop(0.5,`rgba(255,100,0,${0.12+0.05*Math.sin(t*0.05+lxf*5)})`); lg.addColorStop(1,'transparent');
+          ctx.fillStyle=lg; ctx.fillRect(lx-4,0,8,H*0.65);
+        });
+        pulses.forEach((p,idx) => {
+          p.r += 1.8; p.alpha = 0.85*(1-p.r/p.maxR);
+          if (p.r > p.maxR) { pulses.splice(idx,1); addPulse(); return; }
+          ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+          ctx.strokeStyle=`rgba(255,63,164,${p.alpha*0.55})`; ctx.lineWidth=1.5; ctx.stroke();
+          ctx.beginPath(); ctx.arc(p.x,p.y,p.r*0.6,0,Math.PI*2);
+          ctx.strokeStyle=`rgba(255,130,0,${p.alpha*0.3})`; ctx.lineWidth=1; ctx.stroke();
+          const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*0.25);
+          g.addColorStop(0,`rgba(255,63,164,${p.alpha*0.25})`); g.addColorStop(1,'transparent');
+          ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*0.25,0,Math.PI*2); ctx.fill();
+          ctx.beginPath(); ctx.arc(p.x,p.y,3.5,0,Math.PI*2);
+          ctx.fillStyle=`rgba(255,180,0,${p.alpha})`; ctx.fill();
+        });
+        // Wavelength indicator
+        ctx.font = '10px JetBrains Mono, monospace'; ctx.fillStyle='rgba(255,63,164,0.3)';
+        ctx.fillText('λ = 750 nm', 10, H-10);
+        t++; requestAnimationFrame(draw);
+      }
+      draw();
+    });
+
+    // TOC active highlight on scroll
+    const sections = document.querySelectorAll('[id]');
+    const tocLinks = document.querySelectorAll('.toc-link');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 150) current = s.id;
+      });
+      tocLinks.forEach(l => {
+        l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+      });
+    }, { passive: true });
+  });
+</script>
+</body>
+</html>

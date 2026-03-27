@@ -1,0 +1,5 @@
+# GitHub Pages configuration
+# No Jekyll theme — using plain HTML/CSS/JS
+# This file tells GitHub Pages not to process the site with Jekyll themes
+
+theme: null

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>News — Kaustubh Pandit</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>" />
+  <style>
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      padding-left: 2.5rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, var(--accent-cyan), var(--accent-violet), transparent);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2.5rem;
+      top: 1.25rem;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 12px var(--accent-cyan);
+      transform: translate(-4px, -50%);
+      transition: var(--transition);
+    }
+    .timeline-item:hover::before {
+      box-shadow: 0 0 20px var(--accent-cyan);
+      background: #fff;
+    }
+
+    .timeline-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      transition: var(--transition);
+    }
+    .timeline-card:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-card-hover);
+      transform: translateX(4px);
+    }
+    .timeline-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .timeline-date {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--accent-cyan);
+      letter-spacing: 0.05em;
+    }
+    .timeline-text {
+      font-size: 0.93rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .timeline-text strong { color: var(--text-primary); }
+    .timeline-text a { color: var(--accent-cyan); }
+    .timeline-text a:hover { text-decoration: underline; }
+
+    .year-divider {
+      font-family: var(--font-mono);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: rgba(0,212,255,0.15);
+      margin: 2rem 0 1.5rem -2.5rem;
+      letter-spacing: -0.03em;
+    }
+
+    .news-intro-card {
+      background: linear-gradient(135deg, rgba(0,212,255,0.05), rgba(123,47,255,0.05));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 3rem;
+      max-width: 700px;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">KP<span>/</span>bioimaging</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="research.html">Research</a></li>
+    <li><a href="publications.html">Publications</a></li>
+    <li><a href="news.html" class="active">News</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="page-header">
+    <div class="section-label">News</div>
+    <h1 class="section-title">Updates & Highlights</h1>
+    <div class="active-page-line"></div>
+    <p class="section-subtitle">
+      Recent talks, publications, awards, positions, and other milestones.
+    </p>
+  </div>
+
+  <div class="section" style="padding-top:2rem">
+
+    <div class="news-intro-card reveal">
+      <span class="glow-dot"></span>&nbsp;&nbsp;
+      <strong style="color:var(--text-primary)">Currently:</strong>
+      [Your current position — e.g., "Graduate student at XYZ University / Research intern at ABC Lab"].
+      Open to PhD positions in biomedical imaging and computational imaging.
+    </div>
+
+    <div class="timeline">
+
+      <!-- 2025 -->
+      <div class="year-divider">2025</div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-card">
+          <div class="timeline-meta">
+            <span class="timeline-date">March 2025</span>
+            <span class="news-type type-talk">Talk</span>
+          </div>
+          <p class="timeline-text">
+            <strong>[Talk title / event]</strong> — Presented research on [topic] at
+            [Conference / Workshop name]. [Add any notable outcome or feedback.]
+          </p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-1">
+        <div class="timeline-card">
+          <div class="timeline-meta">
+            <span class="timeline-date">Feb 2025</span>
+            <span class="news-type type-paper">Paper</span>
+          </div>
+          <p class="timeline-text">
+            Paper <strong>"[Paper title]"</strong> accepted at [Journal/Conference].
+            <a href="publications.html">→ See publications</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-2">
+        <div class="timeline-card">
+          <div class="timeline-meta">
+            <span class="timeline-date">Jan 2025</span>
+            <span class="news-type type-award">Award</span>
+          </div>
+          <p class="timeline-text">
+            <strong>[Award name]</strong> — Received [fellowship / grant / prize]
+            from [organization] for [reason].
+          </p>
+        </div>
+      </div>
+
+      <!-- 2024 -->
+      <div class="year-divider">2024</div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-card">
+          <div class="timeline-meta">
+            <span class="timeline-date">Oct 2024</span>
+            <span class="news-type type-workshop">Workshop</span>
+          </div>
+          <p class="timeline-text">
+            Attended <strong>[Workshop / Summer school name]</strong> on [topic] at
+            [Institution / Location]. [Notable experience or collaboration.]
+          </p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-1">
+        <div class="timeline-card">
+          <div class="timeline-meta">
+            <span class="timeline-date">Jul 2024</span>
+            <span class="news-type type-travel">Travel Grant</span>
+          </div>
+          <p class="timeline-text">
+            Received <strong>[Travel grant name]</strong> to attend [Conference] in [Location].
+          </p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-2">
+        <div class="timeline-card">
+          <div class="timeline-meta">
+            <span class="timeline-date">May 2024</span>
+            <span class="news-type type-position">Position</span>
+          </div>
+          <p class="timeline-text">
+            <strong>[Position]</strong> — Started as [Research Intern / RA / Teaching Assistant]
+            at [Lab / Institution / Company]. Working on [brief description].
+          </p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-3">
+        <div class="timeline-card">
+          <div class="timeline-meta">
+            <span class="timeline-date">Jan 2024</span>
+            <span class="news-type type-paper">Paper</span>
+          </div>
+          <p class="timeline-text">
+            Submitted <strong>"[Paper title]"</strong> to [Venue]. [Any noteworthy method or result.]
+          </p>
+        </div>
+      </div>
+
+      <!-- 2023 -->
+      <div class="year-divider">2023</div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-card">
+          <div class="timeline-meta">
+            <span class="timeline-date">2023</span>
+            <span class="news-type type-position">Position</span>
+          </div>
+          <p class="timeline-text">
+            <strong>[Milestone]</strong> — [Description of significant event, graduation, project completion, etc.]
+          </p>
+        </div>
+      </div>
+
+    </div><!-- timeline -->
+
+    <p style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);margin-top:3rem;max-width:700px" class="reveal">
+      ✦ Replace all placeholder entries above with your actual news items.
+      Copy the .timeline-item block structure for each event.
+    </p>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-copy">© 2025 Kaustubh Pandit</div>
+    <div class="footer-links">
+      <a href="https://github.com/" target="_blank">GitHub</a>
+      <a href="https://scholar.google.com/" target="_blank">Scholar</a>
+      <a href="https://linkedin.com/" target="_blank">LinkedIn</a>
+      <a href="mailto:kaustubh.sreshtha@gmail.com">Email</a>
+    </div>
+  </footer>
+
+</div>
+
+<button class="back-to-top" aria-label="Back to top">
+  <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

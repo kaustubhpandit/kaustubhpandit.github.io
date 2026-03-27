@@ -3,623 +3,353 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kaustubh Sreshtha — Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --navy:   #0a0f1e;
-      --navy2:  #0f172a;
-      --accent: #4f8ef7;
-      --accent2:#6366f1;
-      --glow:   rgba(79,142,247,0.35);
-      --text:   #e2e8f0;
-      --muted:  #94a3b8;
-      --border: rgba(255,255,255,0.08);
-      --card:   rgba(255,255,255,0.04);
-      --white:  #ffffff;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--navy);
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    /* ── SCROLLBAR ── */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--navy); }
-    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
-
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0;
-      z-index: 200;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 0 6%;
-      height: 66px;
-      background: rgba(10,15,30,0.75);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid var(--border);
-      transition: background 0.3s;
-    }
-    .nav-logo {
-      font-weight: 800; font-size: 1.05rem;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      text-decoration: none; letter-spacing: -0.5px;
-    }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      text-decoration: none; color: var(--muted);
-      font-size: 0.88rem; font-weight: 500;
-      transition: color 0.2s; position: relative;
-    }
-    .nav-links a::after {
-      content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
-      height: 2px; background: var(--accent);
-      transform: scaleX(0); transition: transform 0.25s;
-    }
-    .nav-links a:hover { color: var(--white); }
-    .nav-links a:hover::after { transform: scaleX(1); }
-
-    /* ── CANVAS HERO ── */
-    #hero {
-      position: relative; min-height: 100vh;
-      display: flex; align-items: center; justify-content: center;
-      text-align: center; padding: 80px 6% 60px;
-      overflow: hidden;
-    }
-    #particle-canvas {
-      position: absolute; inset: 0; width: 100%; height: 100%;
-    }
-    .hero-content { position: relative; z-index: 2; }
-
-    .hero-badge {
-      display: inline-block;
-      background: rgba(79,142,247,0.15);
-      border: 1px solid rgba(79,142,247,0.4);
-      color: var(--accent);
-      font-size: 0.75rem; font-weight: 700;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      padding: 6px 18px; border-radius: 999px;
-      margin-bottom: 1.6rem;
-      animation: fadeDown 0.8s ease both;
-    }
-
-    #hero h1 {
-      font-size: clamp(2.4rem, 6vw, 4rem);
-      font-weight: 800; letter-spacing: -1.5px;
-      line-height: 1.1; margin-bottom: 0.3rem;
-      animation: fadeUp 0.9s 0.1s ease both;
-    }
-    #hero h1 .name {
-      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-
-    .typing-wrap {
-      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-      color: var(--muted); margin-bottom: 1.6rem;
-      min-height: 2rem;
-      animation: fadeUp 0.9s 0.2s ease both;
-    }
-    #typed-text { color: var(--accent); font-weight: 600; }
-    .cursor {
-      display: inline-block; width: 2px; height: 1.1em;
-      background: var(--accent); margin-left: 3px;
-      vertical-align: middle;
-      animation: blink 0.75s step-end infinite;
-    }
-
-    #hero p.sub {
-      color: var(--muted); max-width: 520px; margin: 0 auto 2.4rem;
-      font-size: 1rem; line-height: 1.8;
-      animation: fadeUp 0.9s 0.3s ease both;
-    }
-
-    .hero-cta {
-      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
-      animation: fadeUp 0.9s 0.4s ease both;
-    }
-
-    .btn {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 13px 30px; border-radius: 8px;
-      font-size: 0.92rem; font-weight: 600;
-      text-decoration: none; cursor: pointer; border: none;
-      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: var(--white);
-      box-shadow: 0 0 0 rgba(79,142,247,0);
-    }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(79,142,247,0.45);
-    }
-    .btn-outline {
-      background: transparent; color: var(--white);
-      border: 1.5px solid rgba(255,255,255,0.2);
-    }
-    .btn-outline:hover {
-      border-color: var(--accent); color: var(--accent);
-      transform: translateY(-2px);
-    }
-
-    /* ── SECTIONS ── */
-    section { padding: 90px 6%; max-width: 1140px; margin: 0 auto; }
-
-    .section-label {
-      font-size: 0.75rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.12em;
-      color: var(--accent); margin-bottom: 0.4rem;
-    }
-    .section-title {
-      font-size: clamp(1.7rem, 3.5vw, 2.4rem); font-weight: 800;
-      letter-spacing: -0.8px; margin-bottom: 0.6rem;
-    }
-    .gradient-text {
-      background: linear-gradient(135deg, var(--white) 0%, var(--accent) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .divider {
-      width: 48px; height: 3px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      border-radius: 2px; margin-bottom: 1rem;
-    }
-    .section-sub { color: var(--muted); font-size: 1rem; max-width: 500px; margin-bottom: 3rem; }
-
-    /* ── SCROLL REVEAL ── */
-    .reveal {
-      opacity: 0; transform: translateY(40px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-
-    /* ── ABOUT ── */
-    .about-grid { display: flex; flex-wrap: wrap; gap: 3rem; align-items: flex-start; }
-    .about-text { flex: 1 1 340px; }
-    .about-text p { color: var(--muted); margin-bottom: 1rem; line-height: 1.9; }
-
-    .about-card {
-      flex: 0 1 270px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px; padding: 1.8rem;
-      backdrop-filter: blur(10px);
-      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
-    }
-    .about-card:hover {
-      border-color: rgba(79,142,247,0.4);
-      box-shadow: 0 0 30px rgba(79,142,247,0.12);
-      transform: translateY(-4px);
-    }
-    .about-card h4 { font-size: 0.78rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1.3rem; }
-    .info-row { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1rem; }
-    .info-icon {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: rgba(79,142,247,0.12);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; flex-shrink: 0;
-    }
-    .info-row strong { display: block; font-size: 0.82rem; color: var(--white); }
-    .info-row span { font-size: 0.78rem; color: var(--muted); }
-
-    /* ── SKILLS ── */
-    #skills-wrap { background: rgba(255,255,255,0.02); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    #skills-wrap > section { max-width: 1140px; margin: 0 auto; }
-
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 1.4rem;
-    }
-    .skill-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px; padding: 1.5rem;
-      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
-      cursor: default;
-    }
-    .skill-card:hover {
-      border-color: rgba(79,142,247,0.5);
-      box-shadow: 0 0 24px rgba(79,142,247,0.15);
-      transform: translateY(-4px) scale(1.01);
-    }
-    .skill-card-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.1rem; }
-    .skill-emoji { font-size: 1.4rem; }
-    .skill-card h4 { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); }
-    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
-    .tag {
-      background: rgba(79,142,247,0.1);
-      border: 1px solid rgba(79,142,247,0.2);
-      color: var(--text); font-size: 0.78rem; font-weight: 500;
-      padding: 4px 12px; border-radius: 999px;
-      transition: background 0.2s, border-color 0.2s, color 0.2s;
-    }
-    .tag:hover { background: rgba(79,142,247,0.25); border-color: var(--accent); color: var(--white); }
-
-    /* ── PROJECTS ── */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-      gap: 1.6rem;
-    }
-    .project-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px; padding: 1.8rem;
-      display: flex; flex-direction: column;
-      position: relative; overflow: hidden;
-      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
-    }
-    .project-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      opacity: 0; transition: opacity 0.3s;
-    }
-    .project-card:hover {
-      border-color: rgba(79,142,247,0.4);
-      box-shadow: 0 12px 40px rgba(79,142,247,0.15);
-      transform: translateY(-6px);
-    }
-    .project-card:hover::before { opacity: 1; }
-
-    .project-icon {
-      width: 50px; height: 50px; border-radius: 14px;
-      background: rgba(79,142,247,0.12);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.5rem; margin-bottom: 1.2rem;
-      transition: background 0.3s;
-    }
-    .project-card:hover .project-icon { background: rgba(79,142,247,0.25); }
-
-    .project-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--white); margin-bottom: 0.5rem; }
-    .project-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.75; flex: 1; margin-bottom: 1.3rem; }
-    .project-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
-    .project-stack { display: flex; gap: 0.4rem; flex-wrap: wrap; }
-    .stack-tag {
-      background: rgba(99,102,241,0.15);
-      border: 1px solid rgba(99,102,241,0.3);
-      color: #a5b4fc; font-size: 0.73rem; font-weight: 600;
-      padding: 3px 10px; border-radius: 999px;
-    }
-    .project-link {
-      color: var(--accent); font-size: 0.82rem; font-weight: 600;
-      text-decoration: none; display: flex; align-items: center; gap: 4px;
-      transition: gap 0.2s;
-    }
-    .project-link:hover { gap: 8px; }
-
-    /* ── FOOTER ── */
-    footer {
-      background: #060b18;
-      border-top: 1px solid var(--border);
-      text-align: center;
-      padding: 2.8rem 6%;
-      color: var(--muted); font-size: 0.85rem;
-    }
-    footer strong { color: var(--white); }
-    footer a { color: var(--accent); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-
-    /* ── KEYFRAMES ── */
-    @keyframes fadeDown { from { opacity:0; transform: translateY(-20px); } to { opacity:1; transform: translateY(0); } }
-    @keyframes fadeUp   { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
-    @keyframes blink    { 0%,100%{ opacity:1; } 50%{ opacity:0; } }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 640px) {
-      nav { padding: 0 5%; }
-      .nav-links { gap: 1.2rem; }
-      section { padding: 60px 5%; }
-    }
-  </style>
+  <title>Kaustubh Pandit — Bioimaging Researcher</title>
+  <meta name="description" content="Kaustubh Pandit — Research in OCT, Ultrasound, Ultrasound Localization Microscopy, and Photoacoustic Imaging." />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <!-- Favicon: inline SVG data URI -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>" />
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="#hero" class="nav-logo">KS.</a>
+<!-- ═══════ NAV ═══════ -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">KP<span>/</span>bioimaging</a>
   <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills-wrap">Skills</a></li>
-    <li><a href="#projects">Projects</a></li>
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="research.html">Research</a></li>
+    <li><a href="publications.html">Publications</a></li>
+    <li><a href="news.html">News</a></li>
+    <li><a href="contact.html">Contact</a></li>
   </ul>
+  <button class="nav-hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
-<!-- HERO with particle canvas -->
-<section id="hero">
-  <canvas id="particle-canvas"></canvas>
-  <div class="hero-content">
-    <div class="hero-badge">✦ Open to Opportunities</div>
-    <h1>Hi, I'm <span class="name">Kaustubh</span></h1>
-    <div class="typing-wrap">
-      I'm a <span id="typed-text"></span><span class="cursor"></span>
-    </div>
-    <p class="sub">
-      A motivated professional passionate about building great things
-      and solving meaningful problems with code and creativity.
-    </p>
-    <div class="hero-cta">
-      <a href="#projects" class="btn btn-primary">View My Work ↓</a>
-      <a href="mailto:kaustubh.sreshtha@gmail.com" class="btn btn-outline">Get in Touch</a>
-    </div>
-  </div>
-</section>
+<div class="page-wrapper">
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="about-grid">
-    <div class="about-text reveal">
-      <div class="section-label">About Me</div>
-      <div class="divider"></div>
-      <h2 class="section-title"><span class="gradient-text">Who I Am</span></h2>
-      <p>
-        I'm Kaustubh Sreshtha, a driven individual with a passion for creating impactful solutions.
-        I thrive at the intersection of creativity and logic, combining technical skills with
-        clear thinking to deliver work that matters.
+  <!-- ═══════ HERO ═══════ -->
+  <section class="hero">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span></span>Available for PhD / Research Positions
+      </div>
+      <h1 class="hero-name">
+        Kaustubh<br /><span class="highlight">Pandit</span>
+      </h1>
+      <p class="hero-role">
+        <span id="hero-role-text">Bioimaging Researcher</span><span class="type-cursor"></span>
       </p>
-      <p>
-        Whether I'm tackling a new challenge or refining an existing project, I bring curiosity,
-        attention to detail, and a commitment to quality to everything I do.
+      <p class="hero-desc">
+        Developing next-generation medical imaging systems at the intersection of
+        physics, signal processing, and machine learning — pushing the resolution
+        and sensitivity limits of what we can see inside the body.
       </p>
-      <p>Feel free to explore my work below, or reach out — I'd love to connect.</p>
+      <div class="hero-tags">
+        <span class="hero-tag">Optical Coherence Tomography</span>
+        <span class="hero-tag">Ultrasound Imaging</span>
+        <span class="hero-tag">Super-resolution ULM</span>
+        <span class="hero-tag">Photoacoustics</span>
+        <span class="hero-tag">Image Reconstruction</span>
+        <span class="hero-tag">Deep Learning</span>
+      </div>
+      <div class="hero-actions">
+        <a href="research.html" class="btn btn-primary">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+          View Research
+        </a>
+        <a href="publications.html" class="btn btn-outline">Publications</a>
+        <a href="Pandit_Kaustubh_Resume_Grad_Application_2025.pdf" class="btn btn-outline" target="_blank">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          CV / Resume
+        </a>
+      </div>
     </div>
-    <div class="about-card reveal reveal-delay-2">
-      <h4>Quick Info</h4>
-      <div class="info-row">
-        <div class="info-icon">📧</div>
-        <div><strong>Email</strong><span>kaustubh.sreshtha@gmail.com</span></div>
-      </div>
-      <div class="info-row">
-        <div class="info-icon">🐙</div>
-        <div><strong>GitHub</strong><span>github.com/kaustubhpandit</span></div>
-      </div>
-      <div class="info-row">
-        <div class="info-icon">💼</div>
-        <div><strong>LinkedIn</strong><span>linkedin.com/in/your-profile</span></div>
-      </div>
-      <div class="info-row">
-        <div class="info-icon">📍</div>
-        <div><strong>Location</strong><span>Your City, Country</span></div>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- SKILLS -->
-<div id="skills-wrap">
-  <section>
-    <div class="reveal">
-      <div class="section-label">What I Know</div>
-      <div class="divider"></div>
-      <h2 class="section-title"><span class="gradient-text">Skills &amp; Technologies</span></h2>
-      <p class="section-sub">A snapshot of the tools and technologies I work with.</p>
-    </div>
-    <div class="skills-grid">
-      <div class="skill-card reveal reveal-delay-1">
-        <div class="skill-card-header"><span class="skill-emoji">💻</span><h4>Languages</h4></div>
-        <div class="skill-tags">
-          <span class="tag">Python</span>
-          <span class="tag">JavaScript</span>
-          <span class="tag">HTML / CSS</span>
-          <span class="tag">SQL</span>
+  <div class="divider"></div>
+
+  <!-- ═══════ ABOUT ═══════ -->
+  <section class="section">
+    <div class="section-label">About</div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <h2 class="section-title" style="margin-bottom:1.5rem">
+          Imaging the invisible,<br />one photon at a time.
+        </h2>
+        <p>
+          I am a researcher passionate about pushing the frontiers of biomedical
+          imaging. My work spans the full pipeline — from hardware design and
+          signal acquisition to reconstruction algorithms and clinical translation.
+        </p>
+        <p>
+          My core focus areas include <strong style="color:var(--accent-cyan)">Optical Coherence Tomography (OCT)</strong>
+          for high-resolution subsurface tissue imaging, <strong style="color:var(--accent-teal)">Ultrasound Localization
+          Microscopy (ULM)</strong> for super-resolved vascular imaging beyond the
+          diffraction limit, and <strong style="color:var(--accent-pink)">Photoacoustic imaging</strong> for
+          non-invasive functional contrast.
+        </p>
+        <p>
+          I am deeply interested in applying deep learning and computational imaging
+          to overcome fundamental physical limits — enabling earlier diagnosis and
+          better understanding of biological systems.
+        </p>
+        <div style="margin-top:1.5rem">
+          <a href="research.html" class="btn btn-outline" style="font-size:0.85rem">
+            Explore My Research →
+          </a>
         </div>
       </div>
-      <div class="skill-card reveal reveal-delay-2">
-        <div class="skill-card-header"><span class="skill-emoji">⚙️</span><h4>Frameworks</h4></div>
-        <div class="skill-tags">
-          <span class="tag">React</span>
-          <span class="tag">Node.js</span>
-          <span class="tag">Flask</span>
-          <span class="tag">REST APIs</span>
+
+      <div class="about-stats reveal reveal-delay-2">
+        <div class="stat-card">
+          <div class="stat-number">4+</div>
+          <div class="stat-label">Imaging Modalities</div>
         </div>
-      </div>
-      <div class="skill-card reveal reveal-delay-3">
-        <div class="skill-card-header"><span class="skill-emoji">🛠️</span><h4>Tools &amp; Platforms</h4></div>
-        <div class="skill-tags">
-          <span class="tag">Git &amp; GitHub</span>
-          <span class="tag">VS Code</span>
-          <span class="tag">Linux</span>
-          <span class="tag">Figma</span>
+        <div class="stat-card">
+          <div class="stat-number">∞</div>
+          <div class="stat-label">Resolution Hunger</div>
         </div>
-      </div>
-      <div class="skill-card reveal reveal-delay-1">
-        <div class="skill-card-header"><span class="skill-emoji">🤝</span><h4>Soft Skills</h4></div>
-        <div class="skill-tags">
-          <span class="tag">Problem Solving</span>
-          <span class="tag">Communication</span>
-          <span class="tag">Collaboration</span>
-          <span class="tag">Research</span>
+        <div class="stat-card">
+          <div class="stat-number">μm</div>
+          <div class="stat-label">Scale of Interest</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">∂²</div>
+          <div class="stat-label">Wave Equations Solved</div>
         </div>
       </div>
     </div>
   </section>
-</div>
 
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="reveal">
-    <div class="section-label">My Work</div>
-    <div class="divider"></div>
-    <h2 class="section-title"><span class="gradient-text">Featured Projects</span></h2>
-    <p class="section-sub">A selection of projects I've built or contributed to.</p>
-  </div>
-  <div class="projects-grid">
-    <div class="project-card reveal reveal-delay-1">
-      <div class="project-icon">🚀</div>
-      <h3>Project One</h3>
-      <p>A brief description of this project — what problem it solves, what makes it interesting, and what you learned from building it.</p>
-      <div class="project-footer">
-        <div class="project-stack"><span class="stack-tag">Python</span><span class="stack-tag">Flask</span></div>
-        <a href="#" class="project-link">View →</a>
+  <div class="divider"></div>
+
+  <!-- ═══════ FEATURED RESEARCH ═══════ -->
+  <section class="section">
+    <div class="section-label">Featured Research</div>
+    <h2 class="section-title reveal" style="margin-bottom:0.75rem">Imaging Modalities</h2>
+    <p class="section-subtitle reveal reveal-delay-1" style="margin-bottom:2.5rem">
+      Four complementary windows into biological structure and function.
+    </p>
+
+    <div class="projects-grid">
+
+      <!-- OCT -->
+      <div class="project-card reveal">
+        <div class="project-visual visual-oct">
+          <canvas id="canvas-oct" style="width:100%;height:100%"></canvas>
+          <span class="project-visual-label">OCT B-scan simulation</span>
+        </div>
+        <div class="project-body">
+          <span class="project-tag tag-oct">OCT</span>
+          <h3 class="project-title">Optical Coherence Tomography</h3>
+          <p class="project-desc">
+            Micron-scale cross-sectional imaging using low-coherence interferometry.
+            High-speed A-scan acquisition enables real-time volumetric imaging of
+            biological tissue with ~5–10 μm axial resolution.
+          </p>
+          <div class="project-links">
+            <a href="research.html#oct" class="project-link">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+              Learn more
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ultrasound -->
+      <div class="project-card reveal reveal-delay-1">
+        <div class="project-visual visual-us">
+          <canvas id="canvas-us" style="width:100%;height:100%"></canvas>
+          <span class="project-visual-label">Ultrasound B-mode simulation</span>
+        </div>
+        <div class="project-body">
+          <span class="project-tag tag-us">Ultrasound</span>
+          <h3 class="project-title">Pulse-Echo Ultrasound Imaging</h3>
+          <p class="project-desc">
+            Acoustic wave propagation and echo-based reconstruction for deep
+            tissue imaging. Beamforming, compounding, and plane-wave imaging
+            techniques for high frame-rate acquisition.
+          </p>
+          <div class="project-links">
+            <a href="research.html#ultrasound" class="project-link">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+              Learn more
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ULM -->
+      <div class="project-card reveal reveal-delay-2">
+        <div class="project-visual visual-ulm">
+          <canvas id="canvas-ulm" style="width:100%;height:100%"></canvas>
+          <span class="project-visual-label">ULM microbubble tracking</span>
+        </div>
+        <div class="project-body">
+          <span class="project-tag tag-ulm">ULM</span>
+          <h3 class="project-title">Ultrasound Localization Microscopy</h3>
+          <p class="project-desc">
+            Super-resolution vascular imaging by localizing individual microbubble
+            contrast agents. Breaks the diffraction limit to reveal sub-wavelength
+            vascular architecture and blood flow dynamics.
+          </p>
+          <div class="project-links">
+            <a href="research.html#ulm" class="project-link">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+              Learn more
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Photoacoustics -->
+      <div class="project-card reveal reveal-delay-3">
+        <div class="project-visual visual-pa">
+          <canvas id="canvas-pa" style="width:100%;height:100%"></canvas>
+          <span class="project-visual-label">Photoacoustic wave simulation</span>
+        </div>
+        <div class="project-body">
+          <span class="project-tag tag-pa">Photoacoustics</span>
+          <h3 class="project-title">Photoacoustic Imaging</h3>
+          <p class="project-desc">
+            Pulsed laser excitation generates broadband acoustic waves via the
+            thermoelastic effect. Enables label-free imaging of optical absorbers
+            (hemoglobin, melanin) with ultrasonic resolution at depth.
+          </p>
+          <div class="project-links">
+            <a href="research.html#photoacoustics" class="project-link">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+              Learn more
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div style="margin-top:2rem" class="reveal">
+      <a href="research.html" class="btn btn-outline">All Research Projects →</a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════ SKILLS STRIP ═══════ -->
+  <section class="section">
+    <div class="section-label">Technical Skills</div>
+    <h2 class="section-title reveal" style="margin-bottom:2rem">Tools & Expertise</h2>
+    <div class="skills-grid">
+
+      <div class="skill-group reveal">
+        <div class="skill-group-title">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+          Imaging Modalities
+        </div>
+        <div class="skill-pills">
+          <span class="skill-pill">OCT</span>
+          <span class="skill-pill">Ultrasound</span>
+          <span class="skill-pill">ULM</span>
+          <span class="skill-pill">Photoacoustics</span>
+          <span class="skill-pill">Doppler US</span>
+          <span class="skill-pill">CEUS</span>
+        </div>
+      </div>
+
+      <div class="skill-group reveal reveal-delay-1">
+        <div class="skill-group-title">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Programming
+        </div>
+        <div class="skill-pills">
+          <span class="skill-pill">Python</span>
+          <span class="skill-pill">MATLAB</span>
+          <span class="skill-pill">C/C++</span>
+          <span class="skill-pill">Julia</span>
+          <span class="skill-pill">LaTeX</span>
+        </div>
+      </div>
+
+      <div class="skill-group reveal reveal-delay-2">
+        <div class="skill-group-title">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          ML / DL Frameworks
+        </div>
+        <div class="skill-pills">
+          <span class="skill-pill">PyTorch</span>
+          <span class="skill-pill">TensorFlow</span>
+          <span class="skill-pill">Keras</span>
+          <span class="skill-pill">scikit-learn</span>
+          <span class="skill-pill">JAX</span>
+        </div>
+      </div>
+
+      <div class="skill-group reveal reveal-delay-3">
+        <div class="skill-group-title">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          Signal Processing
+        </div>
+        <div class="skill-pills">
+          <span class="skill-pill">Beamforming</span>
+          <span class="skill-pill">FFT / DAS</span>
+          <span class="skill-pill">Wavelet Analysis</span>
+          <span class="skill-pill">Compressed Sensing</span>
+          <span class="skill-pill">Inverse Problems</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════ RECENT NEWS STRIP ═══════ -->
+  <section class="section">
+    <div class="section-label">Latest</div>
+    <h2 class="section-title reveal" style="margin-bottom:2rem">Recent News</h2>
+    <div class="news-list">
+      <div class="news-item reveal">
+        <div class="news-date">2025</div>
+        <div>
+          <span class="news-type type-position">Update</span>
+          <p class="news-text">
+            <strong>[Update your latest news here]</strong> — e.g., started PhD at XYZ University, accepted paper at IEEE UFFC, received travel award...
+          </p>
+        </div>
+      </div>
+      <div class="news-item reveal reveal-delay-1">
+        <div class="news-date">2025</div>
+        <div>
+          <span class="news-type type-paper">Paper</span>
+          <p class="news-text">
+            <strong>[Paper title]</strong> submitted to / accepted at [Journal/Conference]. <a href="publications.html">View publications →</a>
+          </p>
+        </div>
       </div>
     </div>
-    <div class="project-card reveal reveal-delay-2">
-      <div class="project-icon">💡</div>
-      <h3>Project Two</h3>
-      <p>A brief description of this project — what problem it solves, what makes it interesting, and what you learned from building it.</p>
-      <div class="project-footer">
-        <div class="project-stack"><span class="stack-tag">React</span><span class="stack-tag">Node.js</span></div>
-        <a href="#" class="project-link">View →</a>
-      </div>
+    <div style="margin-top:1.5rem" class="reveal">
+      <a href="news.html" class="btn btn-outline">All News →</a>
     </div>
-    <div class="project-card reveal reveal-delay-3">
-      <div class="project-icon">📊</div>
-      <h3>Project Three</h3>
-      <p>A brief description of this project — what problem it solves, what makes it interesting, and what you learned from building it.</p>
-      <div class="project-footer">
-        <div class="project-stack"><span class="stack-tag">SQL</span><span class="stack-tag">Data Analysis</span></div>
-        <a href="#" class="project-link">View →</a>
-      </div>
+  </section>
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <footer class="footer">
+    <div class="footer-copy">© 2025 Kaustubh Pandit &mdash; Built with curiosity &amp; code</div>
+    <div class="footer-links">
+      <a href="https://github.com/" target="_blank">GitHub</a>
+      <a href="https://scholar.google.com/" target="_blank">Scholar</a>
+      <a href="https://linkedin.com/" target="_blank">LinkedIn</a>
+      <a href="mailto:kaustubh.sreshtha@gmail.com">Email</a>
     </div>
-  </div>
-</section>
+  </footer>
 
-<!-- FOOTER -->
-<footer>
-  <p>© 2026 <strong>Kaustubh Sreshtha</strong> · Built with HTML &amp; CSS · Hosted on GitHub Pages</p>
-  <p style="margin-top:0.5rem"><a href="mailto:kaustubh.sreshtha@gmail.com">kaustubh.sreshtha@gmail.com</a></p>
-</footer>
+</div><!-- .page-wrapper -->
 
-<script>
-/* ─────────────────────────────────────────────
-   1. PARTICLE CANVAS
-───────────────────────────────────────────── */
-(function() {
-  const canvas = document.getElementById('particle-canvas');
-  const ctx = canvas.getContext('2d');
-  let W, H, particles = [], mouse = { x: null, y: null };
-  const N = 90, CONN_DIST = 140, MOUSE_DIST = 120;
+<!-- Back to top -->
+<button class="back-to-top" aria-label="Back to top">
+  <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
 
-  function resize() {
-    W = canvas.width  = window.innerWidth;
-    H = canvas.height = document.getElementById('hero').offsetHeight;
-  }
-
-  function rand(min, max) { return Math.random() * (max - min) + min; }
-
-  function Particle() {
-    this.x  = rand(0, W);
-    this.y  = rand(0, H);
-    this.vx = rand(-0.4, 0.4);
-    this.vy = rand(-0.4, 0.4);
-    this.r  = rand(1.5, 3.5);
-  }
-
-  Particle.prototype.update = function() {
-    this.x += this.vx;
-    this.y += this.vy;
-    if (this.x < 0 || this.x > W) this.vx *= -1;
-    if (this.y < 0 || this.y > H) this.vy *= -1;
-
-    // mouse repulsion
-    if (mouse.x !== null) {
-      const dx = this.x - mouse.x, dy = this.y - mouse.y;
-      const d = Math.sqrt(dx*dx + dy*dy);
-      if (d < MOUSE_DIST) {
-        const force = (MOUSE_DIST - d) / MOUSE_DIST * 1.2;
-        this.x += dx / d * force;
-        this.y += dy / d * force;
-      }
-    }
-  };
-
-  Particle.prototype.draw = function() {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(79,142,247,0.7)';
-    ctx.fill();
-  };
-
-  function init() {
-    resize();
-    particles = [];
-    for (let i = 0; i < N; i++) particles.push(new Particle());
-  }
-
-  function animate() {
-    ctx.clearRect(0, 0, W, H);
-    for (let i = 0; i < N; i++) {
-      particles[i].update();
-      particles[i].draw();
-      for (let j = i+1; j < N; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const d = Math.sqrt(dx*dx + dy*dy);
-        if (d < CONN_DIST) {
-          const alpha = (1 - d / CONN_DIST) * 0.5;
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = `rgba(79,142,247,${alpha})`;
-          ctx.lineWidth = 0.8;
-          ctx.stroke();
-        }
-      }
-    }
-    requestAnimationFrame(animate);
-  }
-
-  window.addEventListener('resize', init);
-  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
-  window.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
-
-  init();
-  animate();
-})();
-
-/* ─────────────────────────────────────────────
-   2. TYPING EFFECT
-───────────────────────────────────────────── */
-(function() {
-  const phrases = [
-    'Developer',
-    'Problem Solver',
-    'Creative Thinker',
-    'Tech Enthusiast',
-    'Lifelong Learner'
-  ];
-  const el = document.getElementById('typed-text');
-  let pi = 0, ci = 0, deleting = false;
-
-  function type() {
-    const phrase = phrases[pi];
-    if (!deleting) {
-      el.textContent = phrase.slice(0, ++ci);
-      if (ci === phrase.length) { deleting = true; setTimeout(type, 1800); return; }
-      setTimeout(type, 75);
-    } else {
-      el.textContent = phrase.slice(0, --ci);
-      if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; setTimeout(type, 300); return; }
-      setTimeout(type, 40);
-    }
-  }
-  setTimeout(type, 800);
-})();
-
-/* ─────────────────────────────────────────────
-   3. SCROLL REVEAL
-───────────────────────────────────────────── */
-(function() {
-  const els = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.12 });
-  els.forEach(el => obs.observe(el));
-})();
-</script>
+<script src="assets/js/main.js"></script>
 </body>
 </html>

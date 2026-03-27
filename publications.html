@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Publications — Kaustubh Pandit</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>" />
+  <style>
+    .pub-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .filter-btn {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      padding: 0.35rem 0.9rem;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .filter-btn:hover,
+    .filter-btn.active {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      background: rgba(0,212,255,0.06);
+    }
+    .pub-year-group { margin-bottom: 2.5rem; }
+    .pub-year-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .pub-year-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .pub-number {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+    }
+    .pub-item-inner {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+    }
+    .pub-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.4rem; }
+    .pub-badge {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      padding: 0.1rem 0.45rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+    .badge-journal  { background: rgba(0,212,255,0.1); color: var(--accent-cyan); }
+    .badge-conf     { background: rgba(123,47,255,0.1); color: var(--accent-violet); }
+    .badge-preprint { background: rgba(255,200,0,0.1); color: #ffc800; }
+    .badge-poster   { background: rgba(0,229,180,0.1); color: var(--accent-teal); }
+    .badge-new      { background: rgba(255,63,164,0.15); color: var(--accent-pink); }
+
+    .pub-metrics {
+      display: flex;
+      gap: 1.25rem;
+      margin-top: 0.6rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+    .pub-metric span { color: var(--text-primary); font-weight: 600; }
+
+    .google-scholar-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.65rem 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      transition: var(--transition);
+      margin-bottom: 3rem;
+    }
+    .google-scholar-btn:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      background: var(--bg-card-hover);
+    }
+    .google-scholar-btn svg { color: var(--accent-cyan); }
+
+    .pub-stats-strip {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+      padding: 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .pub-stat { text-align: center; }
+    .pub-stat-num {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-teal));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .pub-stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">KP<span>/</span>bioimaging</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="research.html">Research</a></li>
+    <li><a href="publications.html" class="active">Publications</a></li>
+    <li><a href="news.html">News</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="page-header">
+    <div class="section-label">Publications</div>
+    <h1 class="section-title">Research Output</h1>
+    <div class="active-page-line"></div>
+    <p class="section-subtitle">
+      Peer-reviewed journal articles, conference papers, and preprints.
+      <strong style="color:var(--accent-cyan)">Bold</strong> indicates presenting / corresponding author.
+    </p>
+  </div>
+
+  <div class="section" style="padding-top:2rem">
+
+    <!-- Google Scholar link -->
+    <a href="https://scholar.google.com/" target="_blank" class="google-scholar-btn reveal">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg>
+      View Google Scholar Profile →
+    </a>
+
+    <!-- Stats strip -->
+    <div class="pub-stats-strip reveal">
+      <div class="pub-stat">
+        <div class="pub-stat-num" id="stat-pubs">—</div>
+        <div class="pub-stat-label">Publications</div>
+      </div>
+      <div class="pub-stat">
+        <div class="pub-stat-num" id="stat-cites">—</div>
+        <div class="pub-stat-label">Citations</div>
+      </div>
+      <div class="pub-stat">
+        <div class="pub-stat-num" id="stat-h">—</div>
+        <div class="pub-stat-label">h-index</div>
+      </div>
+      <div class="pub-stat" style="margin-left:auto;text-align:right;color:var(--text-muted);font-family:var(--font-mono);font-size:0.72rem;align-self:center">
+        Update stats from<br/>Google Scholar
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="pub-filters reveal">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="journal">Journal</button>
+      <button class="filter-btn" data-filter="conference">Conference</button>
+      <button class="filter-btn" data-filter="preprint">Preprint</button>
+      <button class="filter-btn" data-filter="poster">Poster</button>
+    </div>
+
+    <!-- ══ Publications List ══ -->
+    <div class="pub-list" id="pub-list">
+
+      <!-- 2025 -->
+      <div class="pub-year-group" data-year="2025">
+        <div class="pub-year-label">2025</div>
+
+        <div class="pub-item reveal" data-type="journal">
+          <div class="pub-item-inner">
+            <div class="pub-number">1</div>
+            <div>
+              <div class="pub-badges">
+                <span class="pub-badge badge-journal">Journal</span>
+                <span class="pub-badge badge-new">New</span>
+              </div>
+              <div class="pub-title">
+                [Your most recent paper title — e.g., "Deep Learning-Accelerated Ultrasound Localization Microscopy for In Vivo Vascular Imaging"]
+              </div>
+              <div class="pub-authors">
+                <strong>Kaustubh Pandit</strong>, Author B, Author C, et al.
+              </div>
+              <div class="pub-venue">
+                IEEE Transactions on Medical Imaging / Biomedical Optics Express / etc., 2025
+              </div>
+              <div class="pub-links">
+                <a href="#" class="pub-link">DOI</a>
+                <a href="#" class="pub-link">PDF</a>
+                <a href="#" class="pub-link">arXiv</a>
+                <a href="#" class="pub-link">Code</a>
+              </div>
+              <div class="pub-metrics">
+                Citations: <span>—</span> &nbsp;|&nbsp; Impact Factor: <span>—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item reveal reveal-delay-1" data-type="conference">
+          <div class="pub-item-inner">
+            <div class="pub-number">2</div>
+            <div>
+              <div class="pub-badges">
+                <span class="pub-badge badge-conf">Conference</span>
+              </div>
+              <div class="pub-title">
+                [Conference paper title — e.g., "Super-Resolution Photoacoustic Imaging via Sparse Recovery and Learned Priors"]
+              </div>
+              <div class="pub-authors">
+                <strong>Kaustubh Pandit</strong>, Author B.
+              </div>
+              <div class="pub-venue">
+                IEEE UFFC / SPIE Photonics West / MICCAI, 2025
+              </div>
+              <div class="pub-links">
+                <a href="#" class="pub-link">DOI</a>
+                <a href="#" class="pub-link">PDF</a>
+                <a href="#" class="pub-link">Slides</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /2025 -->
+
+      <!-- 2024 -->
+      <div class="pub-year-group" data-year="2024">
+        <div class="pub-year-label">2024</div>
+
+        <div class="pub-item reveal" data-type="journal">
+          <div class="pub-item-inner">
+            <div class="pub-number">3</div>
+            <div>
+              <div class="pub-badges">
+                <span class="pub-badge badge-journal">Journal</span>
+              </div>
+              <div class="pub-title">
+                [Journal paper — e.g., "Spectral-Domain OCT Speckle Reduction Using Physics-Informed Neural Networks"]
+              </div>
+              <div class="pub-authors">
+                Author A, <strong>Kaustubh Pandit</strong>, Author C.
+              </div>
+              <div class="pub-venue">
+                Optics Letters / Biomedical Optics Express, 2024
+              </div>
+              <div class="pub-links">
+                <a href="#" class="pub-link">DOI</a>
+                <a href="#" class="pub-link">PDF</a>
+              </div>
+              <div class="pub-metrics">
+                Citations: <span>—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item reveal reveal-delay-1" data-type="preprint">
+          <div class="pub-item-inner">
+            <div class="pub-number">4</div>
+            <div>
+              <div class="pub-badges">
+                <span class="pub-badge badge-preprint">Preprint</span>
+              </div>
+              <div class="pub-title">
+                [Preprint title — e.g., "Adaptive Beamforming for High Frame-Rate Ultrasound with Deep Unrolled Networks"]
+              </div>
+              <div class="pub-authors">
+                <strong>Kaustubh Pandit</strong>, Author B, Author C.
+              </div>
+              <div class="pub-venue">
+                arXiv:2024.XXXXX, 2024
+              </div>
+              <div class="pub-links">
+                <a href="#" class="pub-link">arXiv</a>
+                <a href="#" class="pub-link">Code</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-item reveal reveal-delay-2" data-type="poster">
+          <div class="pub-item-inner">
+            <div class="pub-number">5</div>
+            <div>
+              <div class="pub-badges">
+                <span class="pub-badge badge-poster">Poster</span>
+              </div>
+              <div class="pub-title">
+                [Poster title]
+              </div>
+              <div class="pub-authors">
+                <strong>Kaustubh Pandit</strong>, Author B.
+              </div>
+              <div class="pub-venue">
+                SPIE / IEEE EMBC / OSA Biophotonics Congress, 2024
+              </div>
+              <div class="pub-links">
+                <a href="#" class="pub-link">PDF</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /2024 -->
+
+    </div><!-- #pub-list -->
+
+    <p class="reveal" style="margin-top:2rem;font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted)">
+      ✦ Replace placeholder entries above with your actual publications. Copy the .pub-item block structure for each paper.
+    </p>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-copy">© 2025 Kaustubh Pandit</div>
+    <div class="footer-links">
+      <a href="https://github.com/" target="_blank">GitHub</a>
+      <a href="https://scholar.google.com/" target="_blank">Scholar</a>
+      <a href="https://linkedin.com/" target="_blank">LinkedIn</a>
+      <a href="mailto:kaustubh.sreshtha@gmail.com">Email</a>
+    </div>
+  </footer>
+
+</div>
+
+<button class="back-to-top" aria-label="Back to top">
+  <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<script src="assets/js/main.js"></script>
+<script>
+  // Filter functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const pubItems = document.querySelectorAll('.pub-item');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+
+        pubItems.forEach(item => {
+          const show = filter === 'all' || item.dataset.type === filter;
+          item.style.display = show ? '' : 'none';
+        });
+
+        // Hide/show year groups with no visible items
+        document.querySelectorAll('.pub-year-group').forEach(group => {
+          const visible = [...group.querySelectorAll('.pub-item')].some(i => i.style.display !== 'none');
+          group.style.display = visible ? '' : 'none';
+        });
+      });
+    });
+  });
+</script>
+</body>
+</html>
