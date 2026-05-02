@@ -669,10 +669,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (roleEl) {
     typewriter(roleEl, [
       'Bioimaging Researcher @ OU',
-      'OCT & Photoacoustic Imaging',
-      'Ultrasound Localization Microscopy',
+      'Optical Coherence Tomography (OCT)',
+      'Ultrasound Localization Microscopy (ULM)',
+      'Photoacoustic Imaging (PAI)',
       'Organ Transplant Evaluation',
-      'Seeking PhD Positions 2026'
     ], { typeSpeed: 50, deleteSpeed: 25, pauseEnd: 2200 });
   }
 });
