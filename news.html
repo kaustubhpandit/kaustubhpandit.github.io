@@ -5,101 +5,107 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>News — Kaustubh Pandit</title>
   <link rel="stylesheet" href="assets/css/styles.css" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F52C;</text></svg>" />
   <style>
-    .timeline {
-      position: relative;
-      max-width: 800px;
-      padding-left: 2.5rem;
+    /* ── Timeline ── */
+    .timeline{position:relative;max-width:820px;padding-left:2.5rem}
+    .timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--accent-cyan),var(--accent-violet),transparent)}
+    .timeline-item{position:relative;margin-bottom:1.25rem;transition:opacity .35s ease,transform .35s ease}
+    .timeline-item::before{content:'';position:absolute;left:-2.5rem;top:1.25rem;width:9px;height:9px;border-radius:50%;background:var(--accent-cyan);box-shadow:0 0 12px var(--accent-cyan);transform:translate(-4px,-50%);transition:var(--transition)}
+    .timeline-item:hover::before{box-shadow:0 0 20px var(--accent-cyan);background:#fff}
+    .timeline-item.hidden{display:none}
+    .year-divider{font-family:var(--font-mono);font-size:1.5rem;font-weight:700;color:rgba(0,212,255,.15);margin:2rem 0 1.25rem -2.5rem;letter-spacing:-.03em;transition:opacity .3s}
+    .year-divider.hidden{display:none}
+    .news-intro-card{background:linear-gradient(135deg,rgba(0,212,255,.05),rgba(123,47,255,.05));border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:2rem;max-width:700px;font-size:.9rem;color:var(--text-secondary);line-height:1.75}
+
+    /* ── Filter bar ── */
+    .filter-bar{
+      display:flex;
+      align-items:center;
+      gap:.5rem;
+      flex-wrap:wrap;
+      margin-bottom:2.5rem;
+      max-width:820px;
     }
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      background: linear-gradient(180deg, var(--accent-cyan), var(--accent-violet), transparent);
+    .filter-label{
+      font-family:var(--font-mono);
+      font-size:.7rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--text-muted);
+      margin-right:.25rem;
+      white-space:nowrap;
     }
-    .timeline-item {
-      position: relative;
-      margin-bottom: 2rem;
+    .filter-pill{
+      font-family:var(--font-mono);
+      font-size:.72rem;
+      letter-spacing:.06em;
+      padding:.3rem .85rem;
+      border-radius:100px;
+      border:1px solid var(--border);
+      background:transparent;
+      color:var(--text-secondary);
+      cursor:pointer;
+      transition:var(--transition);
+      white-space:nowrap;
     }
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: -2.5rem;
-      top: 1.25rem;
-      width: 9px; height: 9px;
-      border-radius: 50%;
-      background: var(--accent-cyan);
-      box-shadow: 0 0 12px var(--accent-cyan);
-      transform: translate(-4px, -50%);
-      transition: var(--transition);
+    .filter-pill:hover{
+      border-color:rgba(0,212,255,.4);
+      color:var(--accent-cyan);
+      background:rgba(0,212,255,.05);
     }
-    .timeline-item:hover::before {
-      box-shadow: 0 0 20px var(--accent-cyan);
-      background: #fff;
+    .filter-pill.active{
+      background:rgba(0,212,255,.12);
+      border-color:var(--accent-cyan);
+      color:var(--accent-cyan);
+      box-shadow:0 0 12px rgba(0,212,255,.15);
+    }
+    /* per-category active colours */
+    .filter-pill[data-filter="talk"].active      {background:rgba(0,212,255,.12);border-color:var(--accent-cyan);color:var(--accent-cyan)}
+    .filter-pill[data-filter="poster"].active    {background:rgba(0,229,180,.1); border-color:var(--accent-teal); color:var(--accent-teal)}
+    .filter-pill[data-filter="award"].active     {background:rgba(255,200,0,.1); border-color:#ffc800;            color:#ffc800}
+    .filter-pill[data-filter="fellowship"].active{background:rgba(123,47,255,.12);border-color:var(--accent-violet);color:var(--accent-violet)}
+    .filter-pill[data-filter="position"].active  {background:rgba(255,63,164,.1); border-color:var(--accent-pink); color:var(--accent-pink)}
+
+    /* empty-state */
+    .no-results{
+      display:none;
+      font-family:var(--font-mono);
+      font-size:.85rem;
+      color:var(--text-muted);
+      padding:2rem 0;
     }
 
-    .timeline-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-      transition: var(--transition);
-    }
-    .timeline-card:hover {
-      border-color: var(--border-hover);
-      background: var(--bg-card-hover);
-      transform: translateX(4px);
-    }
-    .timeline-meta {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 0.6rem;
-      flex-wrap: wrap;
-    }
-    .timeline-date {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--accent-cyan);
-      letter-spacing: 0.05em;
-    }
-    .timeline-text {
-      font-size: 0.93rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
-    }
-    .timeline-text strong { color: var(--text-primary); }
-    .timeline-text a { color: var(--accent-cyan); }
-    .timeline-text a:hover { text-decoration: underline; }
+    /* ── Featured card ── */
+    .timeline-card-featured{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:var(--transition);display:grid;grid-template-columns:240px 1fr}
+    .timeline-card-featured:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateX(4px);box-shadow:0 12px 40px rgba(0,0,0,.3),0 0 0 1px rgba(0,212,255,.1)}
+    .timeline-feat-img-wrap{overflow:hidden;position:relative;min-height:150px;background:linear-gradient(135deg,rgba(0,212,255,.06),rgba(123,47,255,.06))}
+    .timeline-feat-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform .5s ease}
+    .timeline-card-featured:hover .timeline-feat-img-wrap img{transform:scale(1.04)}
+    .timeline-feat-body{padding:1.25rem 1.4rem;display:flex;flex-direction:column;justify-content:center;gap:.55rem}
+    .timeline-feat-meta{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+    .timeline-date{font-family:var(--font-mono);font-size:.72rem;color:var(--accent-cyan);letter-spacing:.05em}
+    .timeline-feat-title{font-size:.95rem;font-weight:700;line-height:1.4;color:var(--text-primary);text-decoration:none;transition:color var(--transition)}
+    .timeline-feat-title:hover{color:var(--accent-cyan)}
+    .timeline-feat-title-arrow{font-size:.85rem;opacity:0;margin-left:.3rem;transition:opacity var(--transition),transform var(--transition);display:inline-block}
+    .timeline-feat-title:hover .timeline-feat-title-arrow{opacity:1;transform:translateX(3px)}
 
-    .year-divider {
-      font-family: var(--font-mono);
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: rgba(0,212,255,0.15);
-      margin: 2rem 0 1.5rem -2.5rem;
-      letter-spacing: -0.03em;
+    /* responsive */
+    @media(max-width:640px){
+      .timeline-card-featured{grid-template-columns:1fr}
+      .timeline-feat-img-wrap{min-height:170px;max-height:220px}
+      .timeline-feat-body{padding:.9rem 1rem 1.1rem}
     }
-
-    .news-intro-card {
-      background: linear-gradient(135deg, rgba(0,212,255,0.05), rgba(123,47,255,0.05));
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1.5rem;
-      margin-bottom: 3rem;
-      max-width: 700px;
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      line-height: 1.75;
+    @media(orientation:portrait) and (max-width:900px){
+      .timeline-card-featured{grid-template-columns:1fr}
+      .timeline-feat-img-wrap{min-height:190px;max-height:250px}
+    }
+    @media(min-width:1000px){
+      .timeline-card-featured{grid-template-columns:280px 1fr}
     }
   </style>
 </head>
 <body>
-
 <nav class="nav">
   <a href="index.html" class="nav-logo">KP<span>/</span>bioimaging</a>
   <ul class="nav-links">
@@ -109,22 +115,15 @@
     <li><a href="news.html" class="active">News</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
-  <button class="nav-hamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <button class="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
-
 <div class="page-wrapper">
-
   <div class="page-header">
     <div class="section-label">News</div>
-    <h1 class="section-title">Updates & Highlights</h1>
+    <h1 class="section-title">Updates &amp; Highlights</h1>
     <div class="active-page-line"></div>
-    <p class="section-subtitle">
-      Recent talks, publications, awards, positions, and other milestones.
-    </p>
+    <p class="section-subtitle">Recent talks, publications, awards, positions, and other milestones.</p>
   </div>
-
   <div class="section" style="padding-top:2rem">
 
     <div class="news-intro-card reveal">
@@ -135,206 +134,299 @@
       Open to PhD positions in biomedical imaging.
     </div>
 
-    <div class="timeline">
+    <!-- ── Filter Bar ── -->
+    <div class="filter-bar reveal">
+      <span class="filter-label">Filter</span>
+      <button class="filter-pill active" data-filter="all">All</button>
+      <button class="filter-pill" data-filter="talk">Talks</button>
+      <button class="filter-pill" data-filter="poster">Posters</button>
+      <button class="filter-pill" data-filter="award">Awards</button>
+      <button class="filter-pill" data-filter="fellowship">Fellowships</button>
+      <button class="filter-pill" data-filter="position">Positions</button>
+    </div>
 
-      <!-- 2026 -->
-      <div class="year-divider">2026</div>
+    <p class="no-results" id="no-results">No events in this category.</p>
 
-      <div class="timeline-item reveal">
-        <div class="timeline-card">
-          <div class="timeline-meta">
-            <span class="timeline-date">Jan 2026</span>
-            <span class="news-type type-talk">Oral Talk</span>
+    <div class="timeline" id="timeline">
+
+      <div class="year-divider" data-year="2026">2026</div>
+
+      <div class="timeline-item reveal" data-category="poster" data-year="2026">
+        <div class="timeline-card-featured">
+          <div class="timeline-feat-img-wrap">
+            <img src="News_Images/disc-poster-apr2026.png" alt="Presented at the DISC Poster Competition" />
           </div>
-          <p class="timeline-text">
-            Two <strong>oral presentations at SPIE Photonics West 2026</strong> in San Francisco:
-            PA/ULM for pre-transplant liver evaluation and multi-modal PA/US for kidney hemodynamic assessment.
-          </p>
+          <div class="timeline-feat-body">
+            <div class="timeline-feat-meta">
+              <span class="timeline-date">April 2026</span>
+              <span class="news-type type-talk">Poster</span>
+            </div>
+            <a href="news/news-disc-poster-2026.html" class="timeline-feat-title">
+              Presented at the DISC Poster Competition<span class="timeline-feat-title-arrow">&rarr;</span>
+            </a>
+          </div>
         </div>
       </div>
-
-      <!-- 2025 -->
-      <div class="year-divider">2025</div>
-
-      <div class="timeline-item reveal">
-        <div class="timeline-card">
-          <div class="timeline-meta">
-            <span class="timeline-date">Dec 2025</span>
-            <span class="news-type type-talk">Talk</span>
+      <div class="timeline-item reveal reveal-delay-1" data-category="award" data-year="2026">
+        <div class="timeline-card-featured">
+          <div class="timeline-feat-img-wrap">
+            <img src="News_Images/sbme-award-mar2026.png" alt="Presented at the SBME Spring 2026 Award Ceremony" />
           </div>
-          <p class="timeline-text">
-            Presented <strong>"Dual-Modality PA and ULM for Kidney Viability Assessment"</strong> at the END2Cancer Conference.
-          </p>
+          <div class="timeline-feat-body">
+            <div class="timeline-feat-meta">
+              <span class="timeline-date">March 2026</span>
+              <span class="news-type type-award">Award</span>
+            </div>
+            <a href="news/news-sbme-award-2026.html" class="timeline-feat-title">
+              Presented at the SBME Spring 2026 Award Ceremony<span class="timeline-feat-title-arrow">&rarr;</span>
+            </a>
+          </div>
         </div>
       </div>
-
-      <div class="timeline-item reveal reveal-delay-1">
-        <div class="timeline-card">
-          <div class="timeline-meta">
-            <span class="timeline-date">Oct 2025</span>
-            <span class="news-type type-talk">Oral Talk</span>
+      <div class="timeline-item reveal reveal-delay-2" data-category="talk" data-year="2026">
+        <div class="timeline-card-featured">
+          <div class="timeline-feat-img-wrap">
+            <img src="News_Images/spie-west-jan2026.png" alt="Gave an Oral Presentation at SPIE Photonics West 2026" />
           </div>
-          <p class="timeline-text">
-            Two <strong>oral presentations at BMES 2025</strong> in San Diego — liver PA/ULM assessment and kidney hemodynamics monitoring.
-            Also presented at <strong>UReCA Fall 2025 Showcase</strong> and <strong>OUHS Surgery Research Day</strong>.
-          </p>
+          <div class="timeline-feat-body">
+            <div class="timeline-feat-meta">
+              <span class="timeline-date">Jan 2026</span>
+              <span class="news-type type-talk">Oral Talk</span>
+            </div>
+            <a href="news/news-spie-2026.html" class="timeline-feat-title">
+              Gave an Oral Presentation at SPIE Photonics West 2026<span class="timeline-feat-title-arrow">&rarr;</span>
+            </a>
+          </div>
         </div>
       </div>
-
-      <div class="timeline-item reveal reveal-delay-2">
-        <div class="timeline-card">
-          <div class="timeline-meta">
-            <span class="timeline-date">Sept 2025</span>
-            <span class="news-type type-paper">Paper</span>
+      <div class="timeline-item reveal reveal-delay-3" data-category="award" data-year="2026">
+        <div class="timeline-card-featured">
+          <div class="timeline-feat-img-wrap">
+            <img src="News_Images/sbme-tsc-award-jan2026.png" alt="Received the SBME TSC Travel Award for SPIE Photonics West 2026" />
           </div>
-          <p class="timeline-text">
-            Paper published in <strong>Journal of Membrane Science</strong> on membrane-based separation for trace lead and rare earth element remediation.
-            <a href="publications.html">→ See publications</a>
-          </p>
+          <div class="timeline-feat-body">
+            <div class="timeline-feat-meta">
+              <span class="timeline-date">Jan 2026</span>
+              <span class="news-type type-award">Award</span>
+            </div>
+            <a href="news/news-sbme-tsc-award-2026.html" class="timeline-feat-title">
+              Received the SBME TSC Travel Award for SPIE Photonics West 2026<span class="timeline-feat-title-arrow">&rarr;</span>
+            </a>
+          </div>
         </div>
       </div>
-
-      <div class="timeline-item reveal">
-        <div class="timeline-card">
-          <div class="timeline-meta">
-            <span class="timeline-date">Aug 2025</span>
-            <span class="news-type type-paper">Papers</span>
+      <div class="timeline-item reveal reveal-delay-4" data-category="award" data-year="2026">
+        <div class="timeline-card-featured">
+          <div class="timeline-feat-img-wrap">
+            <img src="News_Images/honors-travel-award-jan2026.png" alt="Received the Honors College Travel Award for SPIE Photonics West 2026" />
           </div>
-          <p class="timeline-text">
-            Two papers published in <strong>Biomedical Optics Express</strong>: RF ablation evaluation in human atrial tissues and mebendazole efficacy for ovarian cancer using OCT.
-            <a href="publications.html">→ See publications</a>
-          </p>
+          <div class="timeline-feat-body">
+            <div class="timeline-feat-meta">
+              <span class="timeline-date">Jan 2026</span>
+              <span class="news-type type-award">Award</span>
+            </div>
+            <a href="news/news-honors-travel-2026.html" class="timeline-feat-title">
+              Received the Honors College Travel Award for SPIE Photonics West 2026<span class="timeline-feat-title-arrow">&rarr;</span>
+            </a>
+          </div>
         </div>
       </div>
+      <div class="year-divider" data-year="2025">2025</div>
 
-      <div class="timeline-item reveal reveal-delay-1">
-        <div class="timeline-card">
-          <div class="timeline-meta">
-            <span class="timeline-date">Summer 2025</span>
-            <span class="news-type type-award">Fellowship</span>
+      <div class="timeline-item reveal" data-category="talk" data-year="2025">
+        <div class="timeline-card-featured">
+          <div class="timeline-feat-img-wrap">
+            <img src="News_Images/end2cancer-dec2025.png" alt="Presented at the END2Cancer Conference 2025" />
           </div>
-          <p class="timeline-text">
-            Awarded <strong>Provost's 2025 Summer UReCA Fellowship</strong> to continue research in bioimaging at the Biophotonic Imaging Laboratory.
-          </p>
+          <div class="timeline-feat-body">
+            <div class="timeline-feat-meta">
+              <span class="timeline-date">Dec 2025</span>
+              <span class="news-type type-talk">Talk</span>
+            </div>
+            <a href="news/news-end2cancer-2025.html" class="timeline-feat-title">
+              Presented at the END2Cancer Conference 2025<span class="timeline-feat-title-arrow">&rarr;</span>
+            </a>
+          </div>
         </div>
       </div>
-
-      <div class="timeline-item reveal reveal-delay-2">
-        <div class="timeline-card">
-          <div class="timeline-meta">
-            <span class="timeline-date">2025</span>
-            <span class="news-type type-award">Award</span>
+      <div class="timeline-item reveal reveal-delay-1" data-category="poster" data-year="2025">
+        <div class="timeline-card-featured">
+          <div class="timeline-feat-img-wrap">
+            <img src="News_Images/ou-surgery-oct2025.png" alt="Presented at OU Surgery Research Day 2025" />
           </div>
-          <p class="timeline-text">
-            Received <strong>Regents' Award for Outstanding Junior</strong>, <strong>Honors College Travel Award</strong>, and <strong>Best Research Presentation Award</strong> at Engineering Days.
-          </p>
+          <div class="timeline-feat-body">
+            <div class="timeline-feat-meta">
+              <span class="timeline-date">Oct 2025</span>
+              <span class="news-type type-talk">Poster</span>
+            </div>
+            <a href="news/news-ou-surgery-2025.html" class="timeline-feat-title">
+              Presented at OU Surgery Research Day 2025<span class="timeline-feat-title-arrow">&rarr;</span>
+            </a>
+          </div>
         </div>
       </div>
-
-      <div class="timeline-item reveal">
-        <div class="timeline-card">
-          <div class="timeline-meta">
-            <span class="timeline-date">2025</span>
-            <span class="news-type type-talk">Conference</span>
+      <div class="timeline-item reveal reveal-delay-2" data-category="talk" data-year="2025">
+        <div class="timeline-card-featured">
+          <div class="timeline-feat-img-wrap">
+            <img src="News_Images/bmes-oct2025.png" alt="Gave Two Oral Presentations at BMES Annual Meeting 2025" />
           </div>
-          <p class="timeline-text">
-            Oral presentations at <strong>Frontiers in Education (FIE) 2025</strong> in Nashville and <strong>REES 2025</strong> in Malaysia on AI-driven engineering advising system (EurekaBot).
-          </p>
+          <div class="timeline-feat-body">
+            <div class="timeline-feat-meta">
+              <span class="timeline-date">Oct 2025</span>
+              <span class="news-type type-talk">Oral Talk</span>
+            </div>
+            <a href="news/news-bmes-2025.html" class="timeline-feat-title">
+              Gave Two Oral Presentations at BMES Annual Meeting 2025<span class="timeline-feat-title-arrow">&rarr;</span>
+            </a>
+          </div>
         </div>
       </div>
-
-      <div class="timeline-item reveal reveal-delay-1">
-        <div class="timeline-card">
-          <div class="timeline-meta">
-            <span class="timeline-date">Dec 2024</span>
-            <span class="news-type type-paper">Patent</span>
+      <div class="timeline-item reveal reveal-delay-3" data-category="poster" data-year="2025">
+        <div class="timeline-card-featured">
+          <div class="timeline-feat-img-wrap">
+            <img src="News_Images/ureca-showcase-oct2025.png" alt="Presented at the UReCA Fall 2025 Showcase" />
           </div>
-          <p class="timeline-text">
-            Filed <strong>U.S. Provisional Patent</strong> (Ser. No. 63/733,320) for "Surgical Tool Handle with Improved Visualization and Grip."
-          </p>
+          <div class="timeline-feat-body">
+            <div class="timeline-feat-meta">
+              <span class="timeline-date">Oct 2025</span>
+              <span class="news-type type-talk">Poster</span>
+            </div>
+            <a href="news/news-ureca-showcase-2025.html" class="timeline-feat-title">
+              Presented at the UReCA Fall 2025 Showcase<span class="timeline-feat-title-arrow">&rarr;</span>
+            </a>
+          </div>
         </div>
       </div>
-
-      <!-- 2024 -->
-      <div class="year-divider">2024</div>
-
-      <div class="timeline-item reveal">
-        <div class="timeline-card">
-          <div class="timeline-meta">
-            <span class="timeline-date">Fall 2024</span>
-            <span class="news-type type-award">Fellowship</span>
+      <div class="timeline-item reveal reveal-delay-4" data-category="fellowship" data-year="2025">
+        <div class="timeline-card-featured">
+          <div class="timeline-feat-img-wrap">
+            <img src="News_Images/UReCA 2025.png" alt="Awarded the Provost's Summer UReCA Fellowship" />
           </div>
-          <p class="timeline-text">
-            Received <strong>Engineering Research Fellowship</strong> at OU. Began work in the Molecular Separation Laboratory on photothermal membrane design.
-          </p>
+          <div class="timeline-feat-body">
+            <div class="timeline-feat-meta">
+              <span class="timeline-date">Summer 2025</span>
+              <span class="news-type type-award">Fellowship</span>
+            </div>
+            <a href="news/ureca-2025.html" class="timeline-feat-title">
+              Awarded the Provost's Summer UReCA Fellowship<span class="timeline-feat-title-arrow">&rarr;</span>
+            </a>
+          </div>
         </div>
       </div>
+      <div class="year-divider" data-year="2024">2024</div>
 
-      <div class="timeline-item reveal reveal-delay-1">
-        <div class="timeline-card">
-          <div class="timeline-meta">
-            <span class="timeline-date">Spring 2024</span>
-            <span class="news-type type-position">Program</span>
+      <div class="timeline-item reveal" data-category="fellowship" data-year="2024">
+        <div class="timeline-card-featured">
+          <div class="timeline-feat-img-wrap">
+            <img src="News_Images/eng-research-fellowship-fall2024.png" alt="Awarded the Engineering Research Fellowship" />
           </div>
-          <p class="timeline-text">
-            Selected for <strong>Undergraduate Research Opportunities Program (UROP)</strong>. Began Honors Thesis on AI-driven scientific data mining.
-          </p>
+          <div class="timeline-feat-body">
+            <div class="timeline-feat-meta">
+              <span class="timeline-date">Fall 2024</span>
+              <span class="news-type type-award">Fellowship</span>
+            </div>
+            <a href="news/news-eng-fellowship-2024.html" class="timeline-feat-title">
+              Awarded the Engineering Research Fellowship<span class="timeline-feat-title-arrow">&rarr;</span>
+            </a>
+          </div>
         </div>
       </div>
-
-      <!-- 2023 -->
-      <div class="year-divider">2023</div>
-
-      <div class="timeline-item reveal">
-        <div class="timeline-card">
-          <div class="timeline-meta">
-            <span class="timeline-date">Fall 2023</span>
-            <span class="news-type type-award">Fellowship</span>
+      <div class="timeline-item reveal reveal-delay-1" data-category="position" data-year="2024">
+        <div class="timeline-card-featured">
+          <div class="timeline-feat-img-wrap">
+            <img src="News_Images/urop-spring2024.png" alt="Selected for the Undergraduate Research Opportunities Program (UROP)" />
           </div>
-          <p class="timeline-text">
-            Awarded <strong>Tomorrow's Engineer Fellowship</strong>. Won <strong>Best ChemE-Car Poster</strong> at AIChE Mid-America Regional Conference.
-          </p>
+          <div class="timeline-feat-body">
+            <div class="timeline-feat-meta">
+              <span class="timeline-date">Spring 2024</span>
+              <span class="news-type type-position">Program</span>
+            </div>
+            <a href="news/news-urop-2024.html" class="timeline-feat-title">
+              Selected for the Undergraduate Research Opportunities Program (UROP)<span class="timeline-feat-title-arrow">&rarr;</span>
+            </a>
+          </div>
         </div>
       </div>
+      <div class="year-divider" data-year="2023">2023</div>
 
-      <div class="timeline-item reveal reveal-delay-1">
-        <div class="timeline-card">
-          <div class="timeline-meta">
-            <span class="timeline-date">Summer 2023</span>
-            <span class="news-type type-position">Externship</span>
+      <div class="timeline-item reveal" data-category="position" data-year="2023">
+        <div class="timeline-card-featured">
+          <div class="timeline-feat-img-wrap">
+            <img src="News_Images/alcon-summer2023.png" alt="Completed an R&D Externship at Alcon" />
           </div>
-          <p class="timeline-text">
-            Completed <strong>Alcon R&amp;D Externship</strong> in Fort Worth, TX — designed and simulated a novel glaucoma drug-delivery lens. Pitched to VPs and senior leadership.
-          </p>
+          <div class="timeline-feat-body">
+            <div class="timeline-feat-meta">
+              <span class="timeline-date">Summer 2023</span>
+              <span class="news-type type-position">Externship</span>
+            </div>
+            <a href="news/news-alcon-2023.html" class="timeline-feat-title">
+              Completed an R&D Externship at Alcon<span class="timeline-feat-title-arrow">&rarr;</span>
+            </a>
+          </div>
         </div>
       </div>
-
-      <div class="timeline-item reveal reveal-delay-2">
-        <div class="timeline-card">
-          <div class="timeline-meta">
-            <span class="timeline-date">Jan 2023</span>
-            <span class="news-type type-position">Position</span>
+      <div class="timeline-item reveal reveal-delay-1" data-category="award" data-year="2023">
+        <div class="timeline-card-featured">
+          <div class="timeline-feat-img-wrap">
+            <img src="News_Images/aiche-spring2023.png" alt="Won Best Poster at AIChE Mid-America Regional Conference 2023" />
           </div>
-          <p class="timeline-text">
-            Joined the <strong>Biophotonic Imaging Laboratory</strong> in the Dept. of Biomedical Engineering at OU under Profs. Qinggong Tang and Tri Vu.
-          </p>
+          <div class="timeline-feat-body">
+            <div class="timeline-feat-meta">
+              <span class="timeline-date">Spring 2023</span>
+              <span class="news-type type-award">Award</span>
+            </div>
+            <a href="news/news-aiche-2023.html" class="timeline-feat-title">
+              Won Best Poster at AIChE Mid-America Regional Conference 2023<span class="timeline-feat-title-arrow">&rarr;</span>
+            </a>
+          </div>
         </div>
       </div>
+      <div class="timeline-item reveal reveal-delay-2" data-category="position" data-year="2023">
+        <div class="timeline-card-featured">
+          <div class="timeline-feat-img-wrap">
+            <img src="News_Images/tanglab-spring2023.png" alt="Joined the Biophotonic Imaging Laboratory at OU (Tanglab)" />
+          </div>
+          <div class="timeline-feat-body">
+            <div class="timeline-feat-meta">
+              <span class="timeline-date">Spring 2023</span>
+              <span class="news-type type-position">Position</span>
+            </div>
+            <a href="news/news-tanglab-2023.html" class="timeline-feat-title">
+              Joined the Biophotonic Imaging Laboratory at OU (Tanglab)<span class="timeline-feat-title-arrow">&rarr;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="year-divider" data-year="2022">2022</div>
 
-    </div><!-- timeline -->
-
+      <div class="timeline-item reveal" data-category="position" data-year="2022">
+        <div class="timeline-card-featured">
+          <div class="timeline-feat-img-wrap">
+            <img src="News_Images/ou-fall2022.png" alt="Joined the University of Oklahoma as a Mechanical Engineering Student" />
+          </div>
+          <div class="timeline-feat-body">
+            <div class="timeline-feat-meta">
+              <span class="timeline-date">Fall 2022</span>
+              <span class="news-type type-position">Position</span>
+            </div>
+            <a href="news/news-ou-2022.html" class="timeline-feat-title">
+              Joined the University of Oklahoma as a Mechanical Engineering Student<span class="timeline-feat-title-arrow">&rarr;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <footer class="footer">
-    <div class="footer-copy">© 2025 Kaustubh Pandit</div>
+    <div class="footer-copy">&copy; 2026 Kaustubh Pandit</div>
     <div class="footer-links">
-      <a href="https://github.com/kaustubhpandit" target="_blank">GitHub</a>
-      <a href="https://scholar.google.com/citations?user=NNTmEOkAAAAJ&hl=en&oi=ao" target="_blank">Scholar</a>
-      <a href="https://www.linkedin.com/in/kaustubhpandit/" target="_blank">LinkedIn</a>
+      <a href="https://github.com/kaustubhpandit" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://scholar.google.com/citations?user=NNTmEOkAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener noreferrer">Scholar</a>
+      <a href="https://www.linkedin.com/in/kaustubhpandit/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       <a href="mailto:kaustubh.pandit@ou.edu">Email</a>
     </div>
   </footer>
-
 </div>
 
 <button class="back-to-top" aria-label="Back to top">
@@ -342,5 +434,43 @@
 </button>
 
 <script src="assets/js/main.js"></script>
+<script>
+  (function () {
+    const pills   = document.querySelectorAll('.filter-pill');
+    const items   = document.querySelectorAll('.timeline-item');
+    const dividers= document.querySelectorAll('.year-divider');
+    const noRes   = document.getElementById('no-results');
+
+    function applyFilter(filter) {
+      let anyVisible = false;
+
+      // Show / hide items
+      items.forEach(item => {
+        const match = filter === 'all' || item.dataset.category === filter;
+        item.classList.toggle('hidden', !match);
+        if (match) anyVisible = true;
+      });
+
+      // Show / hide year dividers — only if at least one child item in that year is visible
+      dividers.forEach(div => {
+        const year = div.dataset.year;
+        const hasVisible = [...items].some(
+          it => it.dataset.year === year && !it.classList.contains('hidden')
+        );
+        div.classList.toggle('hidden', !hasVisible);
+      });
+
+      noRes.style.display = anyVisible ? 'none' : 'block';
+    }
+
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        pills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        applyFilter(pill.dataset.filter);
+      });
+    });
+  })();
+</script>
 </body>
 </html>
